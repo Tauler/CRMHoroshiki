@@ -1,7 +1,7 @@
 package ru.horoshiki.crm.site.dao;
 
 import org.hibernate.SessionFactory;
-import ru.horoshiki.crm.site.model.UserRole;
+import ru.horoshiki.crm.site.model.entity.UserRole;
 
 /**
  * Created by bogdanovkp on 28.11.2016.

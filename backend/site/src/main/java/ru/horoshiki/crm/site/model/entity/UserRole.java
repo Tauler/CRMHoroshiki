@@ -1,4 +1,4 @@
-package ru.horoshiki.crm.site.model;
+package ru.horoshiki.crm.site.model.entity;
 
 import javax.persistence.*;
 import java.util.Date;

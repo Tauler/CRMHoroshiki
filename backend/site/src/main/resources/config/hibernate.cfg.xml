@@ -17,8 +17,10 @@
         <!--<property name="hibernate.connection.charSet">true</property>-->
         <!--<property name="hibernate.default_schema">private</property>-->
 
-        <mapping class="ru.horoshiki.crm.site.model.User"/>
-        <mapping class="ru.horoshiki.crm.site.model.UserRole"/>
+        <mapping class="ru.horoshiki.crm.site.model.entity.User"/>
+        <mapping class="ru.horoshiki.crm.site.model.entity.UserRole"/>
+        <mapping class="ru.horoshiki.crm.site.model.entity.Address"/>
+        <mapping class="ru.horoshiki.crm.site.model.entity.Phone"/>
 
     </session-factory>
 </hibernate-configuration>

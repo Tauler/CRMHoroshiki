@@ -25,6 +25,7 @@
         <intercept-url pattern="/passwordRecovery/*" access="permitAll"/>
         <intercept-url pattern="/registration" access="permitAll"/>
         <intercept-url pattern="/registration/*" access="permitAll"/>
+        <intercept-url pattern="/me" access="permitAll"/>
 
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
 
@@ -41,10 +42,10 @@
             <password-encoder ref="encoder"/>
 
             <jdbc-user-service data-source-ref="dataSource"
-                               users-by-username-query="SELECT mail, password, enabled FROM users WHERE LOWER(mail)=LOWER(?)"
+                               users-by-username-query="SELECT login, password, enabled FROM users WHERE LOWER(login)=LOWER(?)"
                                authorities-by-username-query="
-                  select u.mail, ur.roles as authority from users u, user_roles ur
-                  where u.user_role = ur.id and LOWER(u.mail) = LOWER(?)"
+                  select u.login, ur.roles as authority from users u, user_roles ur
+                  where u.user_role = ur.id and LOWER(u.login) = LOWER(?)"
             />
         </authentication-provider>
     </authentication-manager>

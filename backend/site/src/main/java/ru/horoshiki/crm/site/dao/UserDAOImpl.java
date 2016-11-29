@@ -4,7 +4,12 @@ package ru.horoshiki.crm.site.dao;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import ru.horoshiki.crm.site.model.User;
+import ru.horoshiki.crm.site.model.entity.User;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 
 /**
@@ -14,7 +19,6 @@ public class UserDAOImpl extends AbstractHibernateDAO<User> implements UserDAO {
     public UserDAOImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
-
     /**
      * Метод получения пользователя по mail из БД
      * @param login login пользователя
@@ -27,5 +31,6 @@ public class UserDAOImpl extends AbstractHibernateDAO<User> implements UserDAO {
         appendJoinForPropertiesToCriteria(searchCriteria, properties);
         searchCriteria.add(Restrictions.eq("login", login).ignoreCase());
         return (User) searchCriteria.uniqueResult();
+
     }
 }

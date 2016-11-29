@@ -1,7 +1,8 @@
-package ru.horoshiki.crm.site.model;
+package ru.horoshiki.crm.site.model.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by onyushkindv on 28.11.2016.
@@ -16,7 +17,10 @@ public class User {
     @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ", allocationSize = 1)
     private Long id;
 
-    @Column(name = "mail", unique=true)
+    @Column(name = "login")
+    private String login;
+
+    @Column(name = "mail")
     private String mail;
 
     @Column(name = "blank")
@@ -39,6 +43,36 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_role")
     private UserRole userRoles;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Phone> phones;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Address> addresses;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     public Long getId() {
         return id;

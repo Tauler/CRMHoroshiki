@@ -1,7 +1,7 @@
 package ru.horoshiki.crm.site.dao;
 
 
-import ru.horoshiki.crm.site.model.User;
+import ru.horoshiki.crm.site.model.entity.User;
 
 /**
  * Created by bogdanovkp on 28.11.2016.

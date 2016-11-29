@@ -2,7 +2,7 @@ package ru.horoshiki.crm.site.service;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.horoshiki.crm.site.dao.UserDAO;
-import ru.horoshiki.crm.site.model.User;
+import ru.horoshiki.crm.site.model.entity.User;
 
 
 /**
