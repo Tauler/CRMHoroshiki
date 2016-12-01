@@ -1,5 +1,7 @@
 package ru.horoshiki.crm.site.model.entity;
 
+import ru.horoshiki.crm.site.model.enums.PaymentMethods;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -17,8 +19,11 @@ public class User {
     @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ", allocationSize = 1)
     private Long id;
 
-    @Column(name = "login")
+    @Column(name = "login", unique = true)
     private String login;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "mail")
     private String mail;
@@ -32,10 +37,17 @@ public class User {
     @Column(name = "enabled")
     private Boolean enabled = false;
 
-    @Column(name = "uuid_registration")
-    private String uuidRegistration;
+    @Column(name = "registration_key")
+    private String registrationKey;
 
-    //Датат создания пользователя
+    @Column(name = "payment_method_def")
+    private Integer paymentMethodDef;
+
+    @Column(name="registration_key_gen_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registrationKeyGenDate;
+
+    //Дата создания пользователя
     @Column(name="create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
@@ -114,14 +126,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    public String getUuidRegistration() {
-        return uuidRegistration;
-    }
-
-    public void setUuidRegistration(String uuidRegistration) {
-        this.uuidRegistration = uuidRegistration;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
@@ -136,5 +140,37 @@ public class User {
 
     public void setUserRoles(UserRole userRoles) {
         this.userRoles = userRoles;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRegistrationKey() {
+        return registrationKey;
+    }
+
+    public void setRegistrationKey(String registrationKey) {
+        this.registrationKey = registrationKey;
+    }
+
+    public PaymentMethods getPaymentMethodDef() {
+        return PaymentMethods.valueOf(paymentMethodDef);
+    }
+
+    public void setPaymentMethodDef(PaymentMethods paymentMethodDef) {
+        this.paymentMethodDef = paymentMethodDef.getValue();
+    }
+
+    public Date getRegistrationKeyGenDate() {
+        return registrationKeyGenDate;
+    }
+
+    public void setRegistrationKeyGenDate(Date registrationKeyGenDate) {
+        this.registrationKeyGenDate = registrationKeyGenDate;
     }
 }

@@ -33,4 +33,17 @@ public class UserDAOImpl extends AbstractHibernateDAO<User> implements UserDAO {
         return (User) searchCriteria.uniqueResult();
 
     }
+
+    @Override
+    public boolean isUserByLogin(String login, boolean isBlank) {
+        Criteria searchCriteria = sessionFactory.getCurrentSession().createCriteria(getPersistentClass());
+        searchCriteria.add(Restrictions.eq("login", login).ignoreCase());
+        if(!isBlank)
+            searchCriteria.add(Restrictions.eq("blank", false));
+        User user = (User) searchCriteria.uniqueResult();
+        if (user != null) {
+            return true;
+        }
+        return false;
+    }
 }

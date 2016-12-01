@@ -13,6 +13,7 @@
 
     <modules>
         <module>site</module>
+        <module>crm-http</module>
     </modules>
 
     <properties>

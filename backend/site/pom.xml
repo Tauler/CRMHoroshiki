@@ -181,6 +181,12 @@
             <version>${postgresql.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>ru.horoshiki.crm</groupId>
+            <artifactId>crm-http</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
     </dependencies>
 
 

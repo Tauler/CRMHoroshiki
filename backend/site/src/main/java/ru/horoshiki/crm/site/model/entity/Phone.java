@@ -17,7 +17,7 @@ public class Phone {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "isMain", nullable = false)
+    @Column(name = "is_main", nullable = false)
     private boolean isMain = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

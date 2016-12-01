@@ -31,11 +31,19 @@
               <!--<constructor-arg name="httpDataSource" ref="httpDataSource"/>-->
        <!--</bean>-->
 
-       <!--<bean id="httpDataSource" class="ru.spacecam.httpclient.HttpDataSource">-->
-              <!--<property name="host" value="${bc.http.host}"></property>-->
-              <!--<property name="port" value="${bc.http.port}"></property>-->
-              <!--<property name="login" value="${bc.http.login}"></property>-->
-              <!--<property name="password" value="${bc.http.password}"></property>-->
-       <!--</bean>-->
-       <!---->
+       <bean id="httpClientService" class="ru.horoshiki.crm.httpclient.ApacheHttpClientService"/>
+
+       <bean id="httpDataSource" class="ru.horoshiki.crm.httpclient.HttpDataSource">
+              <property name="host" value="smsc.ru"></property>
+              <property name="port" value="443"></property>
+              <property name="scheme" value="https"></property>
+       </bean>
+
+       <bean id="smsSender" class="ru.horoshiki.crm.sendsms.SmsSenderSmscImpl">
+              <constructor-arg name="httpClientService" ref="httpClientService"/>
+              <constructor-arg name="httpDataSource" ref="httpDataSource"/>
+              <constructor-arg name="login" value="horoshiki2"/>
+              <constructor-arg name="password" value="Horozsm0"/>
+       </bean>
+
 </beans>

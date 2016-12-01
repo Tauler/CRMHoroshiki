@@ -1,24 +1,41 @@
 package ru.horoshiki.crm.site.controller;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.HTMLLayout;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.HtmlUtils;
+import ru.horoshiki.crm.sendsms.SmsSender;
+import ru.horoshiki.crm.site.event.AuthorizationUserEvent;
+import ru.horoshiki.crm.site.event.RegistrationUserEvent;
+import ru.horoshiki.crm.site.exception.RegistrationException;
 import ru.horoshiki.crm.site.model.dto.BackendData;
+import ru.horoshiki.crm.site.model.entity.Address;
+import ru.horoshiki.crm.site.model.entity.Phone;
 import ru.horoshiki.crm.site.model.entity.User;
+import ru.horoshiki.crm.site.model.enums.PaymentMethods;
 import ru.horoshiki.crm.site.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by onyushkindv on 29.11.2016.
@@ -26,6 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller("login-controller")
 @RequestMapping()
 public class LoginController {
+    public static final Logger LOG = Logger.getLogger(LoginController.class);
 
     @Autowired
     private UserService userService;
@@ -40,12 +58,22 @@ public class LoginController {
     @Autowired
     private RememberMeServices rememberMeServices;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired
+    private SmsSender smsSender;
+
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     @ResponseBody
     public BackendData me(){
-        SecurityContextHolder.getContext().setAuthentication(null);
-        User user = userService.getUserByLogin("123");
+
+        List<String> phones = new ArrayList<>();
+        phones.add("7937243817699");
+
+        smsSender.send(phones, "Test sms, Тетовое смс");
+
         return BackendData.success(true);
     }
 
@@ -70,10 +98,10 @@ public class LoginController {
             SecurityContextHolder.getContext().setAuthentication(auth);
             rememberMeServices.loginSuccess(request, response, auth);
             User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-//            applicationEventPublisher.publishEvent(new AuthorizationUserEvent(this, user, request.getRemoteAddr()));
+            applicationEventPublisher.publishEvent(new AuthorizationUserEvent(this, user, request.getRemoteAddr()));
             return BackendData.success(auth.isAuthenticated());
         } catch (Exception ex) {
-//            LOG.error(SecurityContextHolder.getContext().getAuthentication().getName() + " - " + ex.getMessage(), ex);
+            LOG.error(SecurityContextHolder.getContext().getAuthentication().getName() + " - " + ex.getMessage(), ex);
             return BackendData.error("error");
         }
     }
@@ -90,5 +118,93 @@ public class LoginController {
         SecurityContextHolder.getContext().setAuthentication(null);
         rememberMeServices.loginFail(request, response);
         return BackendData.success(true);
+    }
+
+    @RequestMapping(value = "/isMail", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    BackendData getStreamArchive(@RequestParam(value = "email", required = false) String login,
+                                 @RequestParam(value = "isBlank", required = false) boolean isBlank)  {
+        Boolean isLogin = false;
+        try {
+//            Pattern pattern = Pattern.compile(PATTERN_MAIL_REGEX);
+//            Matcher m = pattern.matcher(email);
+
+//            if (email != null && m.matches()) {
+            isLogin = userService.isUserByLogin(login, isBlank);
+            return BackendData.success(isLogin);
+//            }else return BackendData.error("invalidMailFormat");
+        }catch (Exception ex){
+            LOG.error(SecurityContextHolder.getContext().getAuthentication().getName() + " - " + ex.getMessage(), ex);
+            return BackendData.error("error");
+        }
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    @ResponseBody
+    public BackendData saveRegistration(HttpServletRequest request,
+                                        @RequestParam(value = "login", required = true) String login,
+                                        @RequestParam(value = "password", required = true) String password,
+                                        @RequestParam(value = "passwordConfirm", required = true) String passwordConfirm,
+                                        @RequestParam(value = "name", required = true) String name,
+                                        @RequestParam(value = "mail", required = true) String mail,
+                                        @RequestParam(value = "address", required = true) String address,
+                                        @RequestParam(value = "intercomCode", required = false) String intercomCode,
+                                        @RequestParam(value = "storey", required = false) Integer storey,
+                                        @RequestParam(value = "access", required = false) Integer access,
+                                        @RequestParam(value = "apartment", required = false) Integer apartment,
+                                        @RequestParam(value = "comment", required = false) String comment,
+                                        @RequestParam(value = "paymentMethod", required = false) String paymentMethod
+                                        ) throws RegistrationException {
+        if (login == null || userService.isUserByLogin(login, true)) {
+            LOG.debug("Переданы не верные данные для регистрации: login - " + login);
+            return BackendData.error("invalidLoginError");
+        }
+        if (!userService.checkPassword(password) || StringUtils.isEmpty(password)) return BackendData.error("invalidPasswordError");
+        if (StringUtils.isEmpty(passwordConfirm)) return BackendData.error("invalidConfirmPasswordError");
+        if (!password.equals(passwordConfirm)) return BackendData.error("invalidConfirmPasswordError");
+
+        User user = new User();
+        user.setLogin(login.toLowerCase());
+
+        user.setBlank(true);
+        user.setCreateDate(new Date());
+
+        user.setName(HtmlUtils.htmlEscape(name));
+        user.setMail(HtmlUtils.htmlEscape(mail));
+
+        ArrayList<Phone> phones = new ArrayList<>();
+        Phone phone = new Phone();
+        phone.setMain(true);
+        phone.setPhone(HtmlUtils.htmlEscape(login));
+        phones.add(phone);
+        user.setPhones(phones);
+
+        List<Address> addresses = new ArrayList<>();
+        Address addressDef = new Address();
+        addressDef.setAddress(HtmlUtils.htmlEscape(address));
+        if(intercomCode!=null)
+            addressDef.setIntercomCode(HtmlUtils.htmlEscape(intercomCode));
+        if(storey!=null)
+            addressDef.setStorey(storey);
+        if(access!=null)
+            addressDef.setAccess(access);
+        if(apartment!=null)
+            addressDef.setApartment(apartment);
+        if(comment!=null)
+            addressDef.setComment(comment);
+        addressDef.setMain(true);
+        addresses.add(addressDef);
+        user.setAddresses(addresses);
+
+        user.setPaymentMethodDef(PaymentMethods.valueOf(paymentMethod));
+
+        BCryptPasswordEncoder bcript = new BCryptPasswordEncoder(5);
+        user.setPassword(bcript.encode(password));
+
+        userService.add(user);
+        applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
+
+        return BackendData.success(user.getId());
     }
 }
