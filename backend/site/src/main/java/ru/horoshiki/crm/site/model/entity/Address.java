@@ -20,8 +20,8 @@ public class Address {
     private String address;
 
     //код домофона
-    @Column(name = "intercom_code")
-    private String intercomCode;
+    @Column(name = "intercom")
+    private String intercom;
 
     // этаж
     @Column(name = "storey")
@@ -71,12 +71,12 @@ public class Address {
         this.address = address;
     }
 
-    public String getIntercomCode() {
-        return intercomCode;
+    public String getIntercom() {
+        return intercom;
     }
 
-    public void setIntercomCode(String intercomCode) {
-        this.intercomCode = intercomCode;
+    public void setIntercom(String intercom) {
+        this.intercom = intercom;
     }
 
     public Integer getStorey() {

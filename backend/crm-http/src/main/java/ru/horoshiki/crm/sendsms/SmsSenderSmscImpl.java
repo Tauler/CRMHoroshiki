@@ -3,6 +3,7 @@ package ru.horoshiki.crm.sendsms;
 import ru.horoshiki.crm.httpclient.HttpClientService;
 import ru.horoshiki.crm.httpclient.HttpDataSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,5 +47,12 @@ public class SmsSenderSmscImpl implements SmsSender {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public boolean send(String phone, String message) {
+        ArrayList<String> phones = new ArrayList<>();
+        phones.add(phone);
+        return this.send(phones, message);
     }
 }

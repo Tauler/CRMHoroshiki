@@ -7,4 +7,5 @@ import java.util.List;
  */
 public interface SmsSender {
     boolean send(List<String> phones, String message);
+    boolean send(String phone, String message);
 }

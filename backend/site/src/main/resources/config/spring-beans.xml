@@ -56,4 +56,8 @@
               <constructor-arg name="password" value="Horozsm0"/>
        </bean>
 
+
+       <!--listeners-->
+       <bean id="userListener" class="ru.horoshiki.crm.site.listener.UserListener"></bean>
+
 </beans>

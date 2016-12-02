@@ -69,10 +69,16 @@ public class LoginController {
     @ResponseBody
     public BackendData me(){
 
-        List<String> phones = new ArrayList<>();
-        phones.add("7937243817699");
+//        List<String> phones = new ArrayList<>();
+//        phones.add("7937243817699");
+//
+//        smsSender.send(phones, "Test sms, Тетовое смс");
 
-        smsSender.send(phones, "Test sms, Тетовое смс");
+        User user = new User();
+        user.setName("123");
+        applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
+
+        System.out.println("33333");
 
         return BackendData.success(true);
     }
@@ -120,10 +126,10 @@ public class LoginController {
         return BackendData.success(true);
     }
 
-    @RequestMapping(value = "/isMail", method = RequestMethod.POST)
+    @RequestMapping(value = "/isLogin", method = RequestMethod.POST)
     public
     @ResponseBody
-    BackendData getStreamArchive(@RequestParam(value = "email", required = false) String login,
+    BackendData getStreamArchive(@RequestParam(value = "login", required = false) String login,
                                  @RequestParam(value = "isBlank", required = false) boolean isBlank)  {
         Boolean isLogin = false;
         try {
@@ -145,11 +151,10 @@ public class LoginController {
     public BackendData saveRegistration(HttpServletRequest request,
                                         @RequestParam(value = "login", required = true) String login,
                                         @RequestParam(value = "password", required = true) String password,
-                                        @RequestParam(value = "passwordConfirm", required = true) String passwordConfirm,
                                         @RequestParam(value = "name", required = true) String name,
                                         @RequestParam(value = "mail", required = true) String mail,
                                         @RequestParam(value = "address", required = true) String address,
-                                        @RequestParam(value = "intercomCode", required = false) String intercomCode,
+                                        @RequestParam(value = "intercom", required = false) String intercom,
                                         @RequestParam(value = "storey", required = false) Integer storey,
                                         @RequestParam(value = "access", required = false) Integer access,
                                         @RequestParam(value = "apartment", required = false) Integer apartment,
@@ -161,8 +166,6 @@ public class LoginController {
             return BackendData.error("invalidLoginError");
         }
         if (!userService.checkPassword(password) || StringUtils.isEmpty(password)) return BackendData.error("invalidPasswordError");
-        if (StringUtils.isEmpty(passwordConfirm)) return BackendData.error("invalidConfirmPasswordError");
-        if (!password.equals(passwordConfirm)) return BackendData.error("invalidConfirmPasswordError");
 
         User user = new User();
         user.setLogin(login.toLowerCase());
@@ -183,8 +186,8 @@ public class LoginController {
         List<Address> addresses = new ArrayList<>();
         Address addressDef = new Address();
         addressDef.setAddress(HtmlUtils.htmlEscape(address));
-        if(intercomCode!=null)
-            addressDef.setIntercomCode(HtmlUtils.htmlEscape(intercomCode));
+        if(intercom!=null)
+            addressDef.setIntercom(HtmlUtils.htmlEscape(intercom));
         if(storey!=null)
             addressDef.setStorey(storey);
         if(access!=null)
