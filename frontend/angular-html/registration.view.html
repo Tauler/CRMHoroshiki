@@ -1,0 +1,148 @@
+<div class="content">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-md-12 margin-top-35">
+				<div class="col-md-4"></div>
+				<div class="col-md-4 text-align-center registration-content">
+					<h1>Регистрация</h1>
+					<p class="margin-top-40">Создайте аккаунт - и уже через несколько минут Вы сможете продолжить оформление заказа. Сохраните личные данные, чтобы не вводить их при работе с сайтом и заказах на доставку.</p>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+		<div class="row">
+            <div class="col-md-12 margin-top-45">
+				<div class="col-md-4">
+					<div class="registration-markers-dot active">
+						1
+					</div>
+					<div class="registration-markers-line active"></div>
+				</div>
+				<div class="col-md-4 registration-content">
+					<h2>Личная информация</h2>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Ваше имя" name="name" id="name" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="E-mail" name="email" id="email" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Ваш телефон" name="phone" id="phone" ui-mask="{{phone.maskTemplate}}" ng-model="phone.value" ui-mask-placeholder />
+					</div>
+					<div class="form-group form-control-password">
+						<input type="password" class="form-control form-control-pwd" placeholder="Пароль (минимум 6 символов)" name="password" id="password" data-toggle="password" data-message="Показать/скрыть пароль" />
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+		<div class="row">
+            <div class="col-md-12 margin-top-45">
+				<div class="col-md-4">
+					<div class="registration-markers-dot">
+						2
+					</div>
+					<div class="registration-markers-line"></div>
+				</div>
+				<div class="col-md-4 registration-content">
+					<h2>Адрес доставки</h2>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="г. Москва, ул Тверская-Ямская 1-я, д 2 стр 4" name="address" id="address" />
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Домофон" name="domofon" id="domofon" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Этаж" name="floor" id="floor" />
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Подъезд" name="porch" id="porch" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Квартира\офис" name="apartment" id="apartment" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<a href="#">Добавить комментарий к адресу</a>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+		<div class="row">
+            <div class="col-md-12 margin-top-45 margin-bottom-50">
+				<div class="col-md-4">
+					<div class="registration-markers-dot">
+						3
+					</div>
+					<div class="registration-markers-line"></div>
+				</div>
+				<div class="col-md-4 registration-content">
+					<h2>Способ оплаты</h2>
+					<div class="form-group margin-top-30">
+						<input type="radio" name="payment" id="payment-1" />
+						<label for="payment-1">Наличными</label>
+					</div>
+					<div class="form-group">
+						<input type="radio" name="payment" id="payment-2" />
+						<label for="payment-2">Картой курьеру</label>
+					</div>
+					<div class="form-group">
+						<input type="radio" name="payment" id="payment-3" checked />
+						<label for="payment-3">Оплата по карте</label>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+		<div class="row">
+            <div class="col-md-12 margin-top-45">
+				<div class="col-md-4">
+					<div class="registration-markers-dot">
+						<img class="registration-check-icon" src="/img/ico_reg_check_off.svg" />
+					</div>
+				</div>
+				<div class="col-md-4 text-align-center margin-top-10 registration-content">
+					<div class="row">
+						<div class="col-md-12">
+							<button type="button" class="btn btn-horoshiki col-xs-12">
+								Создать аккаунт
+							</button>
+						</div>
+						<div class="col-md-12 registration-rules">
+							<p>Регистрируясь, я принимаю условия использования</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+    </div>
+</div>
+
+<script>
+$(function(){
+	$('#password').password({
+		eyeClass: 'horoshiki-eye',
+		eyeOpenClass: 'horoshiki-eye-open',
+		eyeCloseClass: 'horoshiki-eye-close'
+	});
+	
+	$('.form-control-pwd').on('click', function(e){
+		$(this).parent().children('span').removeClass('form-control-password').addClass('form-control-password-active');
+	}).on('blur', function(e){
+		$(this).parent().children('span').removeClass('form-control-password-active').addClass('form-control-password');
+	});
+});
+</script>

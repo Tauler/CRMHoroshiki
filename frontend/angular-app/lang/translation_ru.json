@@ -1,0 +1,17 @@
+{
+  "lk_error_404_code" : "404",
+  "lk_error_404_title" : "Страница не найдена!",
+  "lk_error_404_title_2" : "Ссылки",
+  "lk_error_404_description" : "Запрашиваемая Вами страница не была найдена на сервере.",
+  "lk_error_404_back" : "Вернуться на главную",
+
+  "lk_error_modal_title" : "ОШИБКА",
+  "lk_error_modal_description" : "Ваш запрос завершился неудачей",
+
+  "error" : "Неизвестная ошибка",
+
+  "pagination_btn_first_page" : "Первая",
+  "pagination_btn_last_page" : "Последняя",
+  "pagination_btn_previous_page" : "Назад",
+  "pagination_btn_next_page" : "Вперед"
+}
