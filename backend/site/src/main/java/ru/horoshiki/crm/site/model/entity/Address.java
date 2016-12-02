@@ -39,10 +39,6 @@ public class Address {
     @Column(name = "comment")
     private String comment;
 
-    // признак основной
-    @Column(name = "is_main", nullable = false)
-    private boolean isMain = false;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -109,13 +105,5 @@ public class Address {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public boolean isMain() {
-        return isMain;
-    }
-
-    public void setMain(boolean main) {
-        isMain = main;
     }
 }

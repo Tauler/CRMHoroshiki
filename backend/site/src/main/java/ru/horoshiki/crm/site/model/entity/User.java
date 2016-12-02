@@ -62,6 +62,14 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Address> addresses;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "def_address")
+    private Address defaultAddress;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "def_phone")
+    private Phone defaultPhone;
+
     public String getLogin() {
         return login;
     }
@@ -172,5 +180,21 @@ public class User {
 
     public void setRegistrationKeyGenDate(Date registrationKeyGenDate) {
         this.registrationKeyGenDate = registrationKeyGenDate;
+    }
+
+    public Address getDefaultAddress() {
+        return defaultAddress;
+    }
+
+    public void setDefaultAddress(Address defaultAddress) {
+        this.defaultAddress = defaultAddress;
+    }
+
+    public Phone getDefaultPhone() {
+        return defaultPhone;
+    }
+
+    public void setDefaultPhone(Phone defaultPhone) {
+        this.defaultPhone = defaultPhone;
     }
 }

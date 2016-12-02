@@ -17,9 +17,6 @@ public class Phone {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "is_main", nullable = false)
-    private boolean isMain = false;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -48,11 +45,4 @@ public class Phone {
         this.phone = phone;
     }
 
-    public boolean isMain() {
-        return isMain;
-    }
-
-    public void setMain(boolean main) {
-        isMain = main;
-    }
 }

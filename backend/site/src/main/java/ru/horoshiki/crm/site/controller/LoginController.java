@@ -142,11 +142,12 @@ public class LoginController {
         user.setMail(HtmlUtils.htmlEscape(mail));
 
         ArrayList<Phone> phones = new ArrayList<>();
-        Phone phone = new Phone();
-        phone.setMain(true);
-        phone.setPhone(HtmlUtils.htmlEscape(login));
-        phones.add(phone);
+        Phone phoneDef = new Phone();
+        phoneDef.setPhone(HtmlUtils.htmlEscape(login));
+        phones.add(phoneDef);
         user.setPhones(phones);
+        user.setDefaultPhone(phoneDef);
+
 
         List<Address> addresses = new ArrayList<>();
         Address addressDef = new Address();
@@ -161,16 +162,16 @@ public class LoginController {
             addressDef.setApartment(apartment);
         if(comment!=null)
             addressDef.setComment(comment);
-        addressDef.setMain(true);
         addresses.add(addressDef);
         user.setAddresses(addresses);
+        user.setDefaultAddress(addressDef);
 
         user.setPaymentMethodDef(PaymentMethods.valueOf(paymentMethod));
 
         BCryptPasswordEncoder bcript = new BCryptPasswordEncoder(5);
         user.setPassword(bcript.encode(password));
 
-        userService.add(user);
+        userService.update(user);
         userService.sendConfirmSms(user);
 
         applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
@@ -181,10 +182,13 @@ public class LoginController {
     @ResponseBody
     public BackendData getNotConfirmUser(@PathVariable Long id){
 
-        User user = userService.getNotConfirmUserById(id);
+        User user = userService.getNotConfirmUserById(id, "defaultAddress", "defaultPhone");
         if(user==null)
             return BackendData.error("userNotFoundError");
         user.setPassword("");
+        user.setAddresses(null);
+        user.setPhones(null);
+        user.setUserRoles(null);
         return BackendData.success(user);
     }
 
