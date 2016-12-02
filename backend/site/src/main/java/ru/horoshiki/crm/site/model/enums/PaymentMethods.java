@@ -6,9 +6,7 @@ package ru.horoshiki.crm.site.model.enums;
 public enum PaymentMethods {
 
     CARD(0),
-
     CASH(1),
-
     DELIVERY_CARD(2);
 
     private int value;

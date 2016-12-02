@@ -33,6 +33,8 @@ import ru.horoshiki.crm.site.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,27 +63,32 @@ public class LoginController {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
-    @Autowired
-    private SmsSender smsSender;
-
-
-    @RequestMapping(value = "/me", method = RequestMethod.GET)
-    @ResponseBody
-    public BackendData me(){
-
-//        List<String> phones = new ArrayList<>();
-//        phones.add("7937243817699");
 //
-//        smsSender.send(phones, "Test sms, Тетовое смс");
-
-        User user = new User();
-        user.setName("123");
-        applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
-
-        System.out.println("33333");
-
-        return BackendData.success(true);
-    }
+//    @RequestMapping(value = "/me", method = RequestMethod.GET)
+//    @ResponseBody
+//    public BackendData me(){
+//
+//
+////        User user = new User();
+////        user.setName("123");
+////        applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
+////
+////        System.out.println("33333");
+//
+//
+//        LocalDateTime currentDate = LocalDateTime.now();
+//        currentDate = currentDate.plusMinutes(5);
+////        Date.from(currentDate.atZone(ZoneId.systemDefault()).toInstant());
+//
+//        LocalDateTime oldDate = LocalDateTime.now();
+//        oldDate = oldDate.plusMinutes(10);
+////        Date.from(currentDate.atZone(ZoneId.systemDefault()).toInstant());
+//
+//
+//        System.out.println(currentDate.isBefore(oldDate));
+//
+//        return BackendData.success(true);
+//    }
 
     /**
      * Метод авторизации в личном кабинете
@@ -209,5 +216,42 @@ public class LoginController {
         applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
 
         return BackendData.success(user.getId());
+    }
+
+    @RequestMapping(value = "/registrationConfirm", method = RequestMethod.POST)
+    @ResponseBody
+    public BackendData registrationConfirm(HttpServletRequest request,
+                                           @RequestParam(value = "userId", required = true) Long userId,
+                                           @RequestParam(value = "code", required = true) String code
+                                           ) {
+
+        User user = userService.get(userId);
+
+        if(user==null){
+            return BackendData.error("userNotFoundError");
+        }
+        if(user.getRegistrationKeyGenDate()==null && user.getRegistrationKey()==null){
+            return BackendData.error("invalidParamError");
+        }
+
+        LocalDateTime currentDate = LocalDateTime.now();
+        currentDate = currentDate.minusMinutes(10);
+
+        LocalDateTime oldDate = LocalDateTime.ofInstant(user.getRegistrationKeyGenDate().toInstant(), ZoneId.systemDefault());
+
+        if(oldDate.isBefore(currentDate)){
+            return BackendData.error("invalidExpiredDateCodeError");
+        }
+
+        if(!code.equals(user.getRegistrationKey())){
+            return BackendData.error("invalidCodeError");
+        }
+
+        user.setBlank(false);
+        user.setRegistrationKey(null);
+        user.setRegistrationKeyGenDate(null);
+        userService.update(user);
+
+        return BackendData.success(true);
     }
 }
