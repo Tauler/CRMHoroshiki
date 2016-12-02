@@ -1,6 +1,7 @@
 package ru.horoshiki.crm.site.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.horoshiki.crm.sendsms.SmsSender;
 import ru.horoshiki.crm.site.RegexpValues;
@@ -12,11 +13,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class UserServiceImpl extends AbstractService<User, UserDAO> implements UserService {
 
-    @Autowired
     private SmsSender smsSender;
+
 
     @Override
     @Transactional
@@ -52,6 +52,7 @@ public class UserServiceImpl extends AbstractService<User, UserDAO> implements U
     }
 
     @Override
+    @Transactional
     public void sendConfirmSms(User user) {
         int min = 1000;
         int max = 9999;
@@ -59,7 +60,15 @@ public class UserServiceImpl extends AbstractService<User, UserDAO> implements U
 
         user.setRegistrationKeyGenDate(new Date());
         user.setRegistrationKey(code);
-        this.update(user);
+        update(user);
         smsSender.send("7".concat(user.getLogin()), "Ваш код подтверждения регистрации: "+code);
+    }
+
+    public SmsSender getSmsSender() {
+        return smsSender;
+    }
+
+    public void setSmsSender(SmsSender smsSender) {
+        this.smsSender = smsSender;
     }
 }

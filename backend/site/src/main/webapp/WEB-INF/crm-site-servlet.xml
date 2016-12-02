@@ -12,6 +12,6 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd
 ">
 
     <mvc:annotation-driven/>
-    <context:component-scan base-package="ru.horoshiki.crm.site.controller ru.horoshiki.crm.site.listener" />
+    <context:component-scan base-package="ru.horoshiki.crm.site.controller ru.horoshiki.crm.site.service ru.horoshiki.crm.site.listener" />
 
 </beans>

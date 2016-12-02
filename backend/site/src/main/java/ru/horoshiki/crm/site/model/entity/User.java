@@ -56,10 +56,12 @@ public class User {
     @JoinColumn(name = "user_role")
     private UserRole userRoles;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Phone> phones;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> addresses;
 
     @ManyToOne(fetch = FetchType.LAZY)

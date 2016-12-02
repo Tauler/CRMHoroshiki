@@ -31,6 +31,11 @@ a:hover, a:focus{
 	text-decoration: none;
 }
 
+code{
+	color: #ff7979;
+	background: none;
+}
+
 input:focus{
 	border-color: #d6a461 !important;
 	box-shadow: none !important;
@@ -614,6 +619,15 @@ span.form-control-password-active{
 	padding-top: 15px;
 }
 
+.registration-confirm-content{
+	width: 400px;
+}
+
+.registration-confirm-content input{
+	width: 200px;
+	margin: 0 auto;
+}
+
 @media (max-width: 991px) {
 	.registration-markers-dot, .registration-markers-line {
 		display: none;
@@ -625,6 +639,18 @@ span.form-control-password-active{
 	
 	.registration-rules p{
 		padding-top: 55px;
+	}
+	
+	.registration-confirm-content{
+		width: auto;
+	}
+	
+	.registration-confirm-content input{
+		width: 100%;
+	}
+	
+	.registration-confirm-content button{
+		width: 100%;
 	}
 }
 
@@ -655,6 +681,10 @@ span.form-control-password-active{
 .registration-markers-dot.active, .registration-markers-line.active {
     color: #d59a4b;
     border-color: #d59a4b;
+}
+
+.registration-markers-line.long {
+    height: 500px;
 }
 
 .registration-check-icon{

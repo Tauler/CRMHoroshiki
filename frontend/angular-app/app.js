@@ -18,6 +18,8 @@ var horoshikiLkApp = angular.module('horoshikiLkApp', [
 
 horoshikiLkApp.config(['$locationProvider', '$httpProvider', '$routeProvider',
     function($locationProvider, $httpProvider, $routeProvider) {
+		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+        $httpProvider.defaults.xsrfHeaderName = "X-CSRF-TOKEN";
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
 
@@ -41,6 +43,11 @@ horoshikiLkApp.config(['$locationProvider', '$httpProvider', '$routeProvider',
 			.when('/account/registration', {
                 templateUrl: '/angular-html/registration.view.html',
                 controller: 'RegistrationViewController',
+                title: 'Регистрация'
+            })
+			.when('/account/confirm', {
+                templateUrl: '/angular-html/confirm.view.html',
+                controller: 'ConfirmViewController',
                 title: 'Регистрация'
             })
             .otherwise({

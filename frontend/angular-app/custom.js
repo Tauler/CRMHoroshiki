@@ -4,6 +4,8 @@ var backendServerAddr = "/backend";
 var backendTimeout = 5000;
 
 var mailRegexp = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
+var userPhoneRegexp = /^([0-9]){10}$/;
+var passwordRegexp = /^[a-zA-Z0-9!@^*-.,=]{6,16}$/;
 var numberRegexp = /^[0-9]+$/;
 var numberWithDotRegexp = /^[0-9.]+$/;
 

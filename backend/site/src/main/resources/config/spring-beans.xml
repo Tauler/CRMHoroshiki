@@ -28,6 +28,7 @@
 
        <bean id="userService" class="ru.horoshiki.crm.site.service.UserServiceImpl">
               <property name="dao" ref="userDAO"/>
+              <property name="smsSender" ref="smsSender"/>
        </bean>
        <bean id="userRoleService" class="ru.horoshiki.crm.site.service.UserRoleServiceImpl">
               <property name="dao" ref="userRoleDAO"/>

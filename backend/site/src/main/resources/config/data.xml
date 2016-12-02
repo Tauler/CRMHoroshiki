@@ -7,9 +7,9 @@
     <!-- Main data source -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/horoshiki_crm_site"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="postgres"/>
+        <property name="url" value="${server.db.host}"/>
+        <property name="username" value="${server.db.user}"/>
+        <property name="password" value="${server.db.pass}"/>
     </bean>
 
     <!-- Hibernate session factory -->
