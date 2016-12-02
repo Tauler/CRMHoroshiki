@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="horoshikiLkApp">
+<head ng-controller="HeaderController">
+    <title ng-bind="title + ' | Horoshiki'"></title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="Horoshiki">
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
+
+    <link rel="shortcut icon" href="/img/favicon.png">
+
+    <base href="/"/>
+</head>
+
+<body ng-controller="LayoutController">
+<div id="wrapper" class="wrapper">
+    <nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!-- <a class="navbar-brand" href="/"><img src="/img/logo.svg" alt="Horoshiki" onerror="this.onerror=null; this.src='/img/logo.png'"/></a> -->
+				<a class="navbar-brand" href="/"><img src="/img/logo_t.png" alt="Horoshiki"/></a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="navbar-links active"><a href="#">Меню</a></li>
+					<li class="navbar-links"><a href="#">Акции</a></li>
+					<li class="navbar-links"><a href="#">Блог</a></li>
+					<li class="navbar-links"><a href="#">О нас</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="navbar-links"><a href="#">Ваш кабинет</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div id="main-content-wrapper" class="content-wrapper">
+        <div ng-view></div>
+    </div>
+	<footer class="footer hint">
+		&copy; 2001–2016 Хорошики. Доставка суши
+	</footer>
+</div>
+
+<!-- Javascript -->
+<script type="text/javascript" src="/js/jquery/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
+
+<!-- Angular lib -->
+<script type="text/javascript" src="/js/angular/angular.min.js"></script>
+<script type="text/javascript" src="/js/angular/angular-route.min.js"></script>
+<script type="text/javascript" src="/js/angular/angular-cookies.min.js"></script>
+<script type="text/javascript" src="/js/angular/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="/js/angular/angular-resource.min.js"></script>
+<script type="text/javascript" src="/js/angular/angular-ui.mask.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap/ui-bootstrap-tpls-2.2.0.js"></script>
+<script type="text/javascript" src="/js/bootstrap/bootstrap-show-password.min.js"></script>
+
+<!-- Angular app -->
+<script type="text/javascript" src="/angular-app/app.js"></script>
+<script type="text/javascript" src="/angular-app/custom.js"></script>
+
+<!-- Angular controllers -->
+<script type="text/javascript" src="/angular-app/controllers/LayoutController.js"></script>
+<script type="text/javascript" src="/angular-app/controllers/ErrorController.js"></script>
+<script type="text/javascript" src="/angular-app/controllers/MainController.js"></script>
+<script type="text/javascript" src="/angular-app/controllers/LoginController.js"></script>
+
+<!-- Angular services -->
+<script type="text/javascript" src="/angular-app/service/TranslationService.js"></script>
+<script type="text/javascript" src="/angular-app/service/BackendService.js"></script>
+<script type="text/javascript" src="/angular-app/service/AccountService.js"></script>
+
+<!-- Angular directives -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        resizeFooter();
+    });
+    $(window).resize(function(){
+        resizeFooter();
+    });
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,90 @@
+<div class="content">
+    <div class="main-content">
+        <div class="row">
+			<div class="col-sm-2 col-md-1">
+			</div>
+            <div class="col-xs-12 col-sm-8 col-md-10">
+				<div class="col-md-5 margin-bottom-50">
+					<h1>Личный кабинет</h1>
+				</div>
+			</div>
+			<div class="col-sm-2 col-md-1">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2 col-md-1">
+			</div>
+            <div class="col-xs-12 col-sm-8 col-md-10">
+				<div class="col-md-5 login-about-lk">
+					<form role="form" class="margin-10">
+						<h3>Войдите в личный кабинет</h3>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Ваш телефон" name="login" id="login" ui-mask="{{phone.maskTemplate}}" ng-model="phone.value" ui-mask-placeholder />
+						</div>
+						<div class="form-group form-control-password">
+							<input type="password" class="form-control form-control-pwd" placeholder="Пароль" name="password" id="password" data-toggle="password" data-message="Показать/скрыть пароль" />
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="button" class="btn btn-horoshiki col-md-3 col-xs-12">
+										Войти
+									</button>
+								</div>
+								<div class="col-md-6 login-lost-pwd">
+									<a href="#">Забыли пароль?</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-1 divider-login"></div>
+				<div class="col-md-5 login-about-lk">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="col-md-10 col-xs-12">
+								<h3>Делайте заказ быстро и удобно. С помощью Личного кабинета вы сможете:</h3>
+							</div>
+							<div class="col-md-12">
+								<ul class="login-ul">
+									<li class="padding-top-15 padding-bottom-10"><span>Используйте введённые ранее данные</span></li>
+									<li class="padding-bottom-10"><span>Отслеживайте статус заказа</span></li>
+									<li class="padding-bottom-10"><span>Накапливайте бонусные рубли</span></li>
+									<li class="padding-bottom-15"><span>Сохраняйте историю заказов</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<button type="button" class="btn btn-horoshiki transparent col-md-12 col-xs-12">
+								Зарегистрироваться на Horoshiki
+							</button>
+						</div>
+						<div class="col-md-12">
+							<p class="hint padding-top-10">и продолжить оформление заказа</p>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="col-sm-2 col-md-1">
+			</div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+	$('#password').password({
+		eyeClass: 'horoshiki-eye',
+		eyeOpenClass: 'horoshiki-eye-open',
+		eyeCloseClass: 'horoshiki-eye-close'
+	});
+	
+	$('.form-control-pwd').on('click', function(e){
+		$(this).parent().children('span').removeClass('form-control-password').addClass('form-control-password-active');
+	}).on('blur', function(e){
+		$(this).parent().children('span').removeClass('form-control-password-active').addClass('form-control-password');
+	});
+});
+</script>
