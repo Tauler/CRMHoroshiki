@@ -46,4 +46,13 @@ public class UserDAOImpl extends AbstractHibernateDAO<User> implements UserDAO {
         }
         return false;
     }
+
+    @Override
+    public User getNotConfirmUserById(Long id, String... properties) {
+        Criteria searchCriteria = sessionFactory.getCurrentSession().createCriteria(getPersistentClass());
+        searchCriteria.add(Restrictions.eq("id", id));
+        searchCriteria.add(Restrictions.eq("blank", true));
+        User user = (User) searchCriteria.uniqueResult();
+        return user;
+    }
 }

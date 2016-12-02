@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by onyushkindv on 02.12.2016.
@@ -21,27 +22,9 @@ import java.util.Random;
 @Component
 public class UserListener {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SmsSender smsSender;
-
     @EventListener
     public void confirmIPAdressDevice(RegistrationUserEvent registrationUserEvent) {
-        Random random = new Random();
-        String code = String.valueOf(random.nextInt(9999));
 
-        User user = registrationUserEvent.getUser();
-
-//        LocalDateTime date = LocalDateTime.now();
-//        date.plusMinutes(5);
-//        Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
-
-        user.setRegistrationKeyGenDate(new Date());
-        user.setRegistrationKey(code);
-        userService.update(user);
-        boolean isSend = smsSender.send("7".concat(user.getLogin()), "Ваш код подтверждения регистрации: "+code);
     }
 
 }

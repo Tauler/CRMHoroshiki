@@ -24,7 +24,7 @@
         <intercept-url pattern="/passwordRecovery" access="permitAll"/>
         <intercept-url pattern="/passwordRecovery/*" access="permitAll"/>
         <intercept-url pattern="/registration" access="permitAll"/>
-        <intercept-url pattern="/registration/*" access="permitAll"/>
+        <intercept-url pattern="/registration/**" access="permitAll"/>
         <intercept-url pattern="/me" access="permitAll"/>
 
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>

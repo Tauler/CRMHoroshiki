@@ -14,10 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 import ru.horoshiki.crm.sendsms.SmsSender;
@@ -36,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,32 +61,12 @@ public class LoginController {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
-//
-//    @RequestMapping(value = "/me", method = RequestMethod.GET)
-//    @ResponseBody
-//    public BackendData me(){
-//
-//
-////        User user = new User();
-////        user.setName("123");
-////        applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
-////
-////        System.out.println("33333");
-//
-//
-//        LocalDateTime currentDate = LocalDateTime.now();
-//        currentDate = currentDate.plusMinutes(5);
-////        Date.from(currentDate.atZone(ZoneId.systemDefault()).toInstant());
-//
-//        LocalDateTime oldDate = LocalDateTime.now();
-//        oldDate = oldDate.plusMinutes(10);
-////        Date.from(currentDate.atZone(ZoneId.systemDefault()).toInstant());
-//
-//
-//        System.out.println(currentDate.isBefore(oldDate));
-//
-//        return BackendData.success(true);
-//    }
+    @RequestMapping(value = "/me", method = RequestMethod.GET)
+    @ResponseBody
+    public BackendData me(){
+        String code = String.valueOf(ThreadLocalRandom.current().nextInt(1000, 9999 + 1));
+        return BackendData.success(code);
+    }
 
     /**
      * Метод авторизации в личном кабинете
@@ -131,26 +109,6 @@ public class LoginController {
         SecurityContextHolder.getContext().setAuthentication(null);
         rememberMeServices.loginFail(request, response);
         return BackendData.success(true);
-    }
-
-    @RequestMapping(value = "/isLogin", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    BackendData getStreamArchive(@RequestParam(value = "login", required = false) String login,
-                                 @RequestParam(value = "isBlank", required = false) boolean isBlank)  {
-        Boolean isLogin = false;
-        try {
-//            Pattern pattern = Pattern.compile(PATTERN_MAIL_REGEX);
-//            Matcher m = pattern.matcher(email);
-
-//            if (email != null && m.matches()) {
-            isLogin = userService.isUserByLogin(login, isBlank);
-            return BackendData.success(isLogin);
-//            }else return BackendData.error("invalidMailFormat");
-        }catch (Exception ex){
-            LOG.error(SecurityContextHolder.getContext().getAuthentication().getName() + " - " + ex.getMessage(), ex);
-            return BackendData.error("error");
-        }
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -213,12 +171,24 @@ public class LoginController {
         user.setPassword(bcript.encode(password));
 
         userService.add(user);
-        applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
+        userService.sendConfirmSms(user);
 
+        applicationEventPublisher.publishEvent(new RegistrationUserEvent(this,user));
         return BackendData.success(user.getId());
     }
 
-    @RequestMapping(value = "/registrationConfirm", method = RequestMethod.POST)
+    @RequestMapping(value = "/registration/getNotConfirmUser/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public BackendData getNotConfirmUser(@PathVariable Long id){
+
+        User user = userService.getNotConfirmUserById(id);
+        if(user==null)
+            return BackendData.error("userNotFoundError");
+        user.setPassword("");
+        return BackendData.success(user);
+    }
+
+    @RequestMapping(value = "/registration/confirm", method = RequestMethod.POST)
     @ResponseBody
     public BackendData registrationConfirm(HttpServletRequest request,
                                            @RequestParam(value = "userId", required = true) Long userId,
@@ -254,4 +224,38 @@ public class LoginController {
 
         return BackendData.success(true);
     }
+
+    @RequestMapping(value = "/resendConfirmSms", method = RequestMethod.POST)
+    @ResponseBody
+    public BackendData resendConfirmSms(HttpServletRequest request,
+                                        @RequestParam(value = "userId", required = true) Long userId
+    ) {
+        User user = userService.get(userId);
+        if(user==null)
+            return BackendData.error("userNotFoundError");
+        userService.sendConfirmSms(user);
+        return BackendData.success(true);
+    }
+
+    @RequestMapping(value = "/isLogin", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    BackendData getStreamArchive(@RequestParam(value = "login", required = false) String login,
+                                 @RequestParam(value = "isBlank", required = false) boolean isBlank)  {
+        Boolean isLogin = false;
+        try {
+//            Pattern pattern = Pattern.compile(PATTERN_MAIL_REGEX);
+//            Matcher m = pattern.matcher(email);
+
+//            if (email != null && m.matches()) {
+            isLogin = userService.isUserByLogin(login, isBlank);
+            return BackendData.success(isLogin);
+//            }else return BackendData.error("invalidMailFormat");
+        }catch (Exception ex){
+            LOG.error(SecurityContextHolder.getContext().getAuthentication().getName() + " - " + ex.getMessage(), ex);
+            return BackendData.error("error");
+        }
+    }
 }
+
+
