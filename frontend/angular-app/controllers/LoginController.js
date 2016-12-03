@@ -18,7 +18,7 @@ loginControllers.controller('LoginViewController', ['$scope', '$location', 'Acco
 
         //Вход
         $scope.submitLoginForm = function(){
-            AccountService.loginAccount($scope.username, $scope.password).success(function(result){
+            AccountService.loginAccount($scope.login, $scope.password).success(function(result){
                 if(result.success == true){
                     redirect(backUrl);
                 }else{
