@@ -1,12 +1,21 @@
-@font-face{
-	font-family: 'GothaProReg';
-	src: url('../fonts/GothaProReg.otf');
+@font-face {
+    font-family:'GothamPro';
+    src: url('../fonts/GothamPro.eot');
+    src: local('GothamPro'), local(Gotham Pro),
+    url('../fonts/GothamPro.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/GothamPro.woff2') format('woff2'),
+    url('../fonts/GothamPro.woff') format('woff'),
+    url('../fonts/GothamPro.svg#GothamPro') format('svg');
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-FB04;
 }
 
 body{
-	font-family: 'GothaProReg';
+	font-family: 'GothamPro';
 	background-color: #F5F5F5;
-	font-size: 13px;
+	font-size: 14px;
 }
 
 h1{
@@ -20,6 +29,10 @@ h2{
 h3{
 	font-size: 17px;
 	margin-top: 0px;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    line-height: 24px;
 }
 
 a, a:visited{
@@ -359,6 +372,8 @@ input[type=checkbox] + label:before{
 	float: left !important;
 }
 
+
+
 .text-align-right {
     text-align: right !important;
 }
@@ -485,7 +500,9 @@ input[type=checkbox] + label:before{
   border-color: #d6a461;
   padding: 10px 20px;
   min-width: 100px;
+  height: 40px;
 }
+
 .btn-horoshiki:focus,
 .btn-horoshiki.focus {
   color: #000000;
@@ -628,6 +645,11 @@ span.form-control-password-active{
 	margin: 0 auto;
 }
 
+.margin-title{
+    margin-top: 65px;
+    margin-bottom: 85px;
+}
+
 @media (max-width: 991px) {
 	.registration-markers-dot, .registration-markers-line {
 		display: none;
@@ -652,6 +674,28 @@ span.form-control-password-active{
 	.registration-confirm-content button{
 		width: 100%;
 	}
+
+    .btn-horoshiki {
+        width: 100%;
+    }
+
+    .margin-title{
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
+}
+
+
+
+.circle{
+    border-radius: 6px;
+    width: 6px;
+    height: 6px;
+    background-color: #d6a461;
+    margin-top: 7px;
+    margin-right: 20px;
+    margin-left: 20px;
+    float: left;
 }
 
 .registration-markers-line {
