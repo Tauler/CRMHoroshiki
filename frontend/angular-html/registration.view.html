@@ -1,12 +1,12 @@
 <div class="content container">
 	<div class="main-content ng-hide" ng-show="page.showConfirm==true">
 		<div class="row">
-			<div class="col-md-12 margin-top-35">
+			<div class="col-md-12 elem-block">
 				<div class="col-md-4"></div>
 				<div class="col-md-4 text-align-center registration-confirm-content">
 					<h1>Подтвердите телефон</h1>
 					<p class="margin-top-40">Мы отправили код подтверждения на номер {{user.login}}</p>
-					<div class="form-group margin-top-40">
+					<div class="form-group elem-block-h">
 						<input type="text" class="form-control" placeholder="Код из СМС" name="code" id="code" ng-model="user.code" />
 						<code class="ng-hide" ng-show="showCodeError==true">Укажите верный код подтверждения</code>
 					</div>
@@ -28,17 +28,17 @@
 	</div>
     <div class="main-content ng-hide" ng-show="page.showRegistration==true">
         <div class="row">
-            <div class="col-md-12 margin-top-35">
+            <div class="col-md-12 elem-block">
 				<div class="col-md-4"></div>
 				<div class="col-md-4 text-align-center registration-content">
 					<h1>Регистрация</h1>
-					<p class="margin-top-40">Создайте аккаунт - и уже через несколько минут Вы сможете продолжить оформление заказа. Сохраните личные данные, чтобы не вводить их при работе с сайтом и заказах на доставку.</p>
+					<p class="elem-block-h">Создайте аккаунт - и уже через несколько минут Вы сможете продолжить оформление заказа. Сохраните личные данные, чтобы не вводить их при работе с сайтом и заказах на доставку.</p>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
 		</div>
 		<div class="row">
-            <div class="col-md-12 margin-top-45">
+            <div class="col-md-12 elem-block">
 				<div class="col-md-4">
 					<div class="registration-markers-dot" ng-class="{'active' : firstBlockCompleted() }">
 						1
@@ -46,20 +46,20 @@
 					<div class="registration-markers-line" ng-class="{'active' : firstBlockCompleted(), 'long' : firstBlockHaveErrors() }"></div>
 				</div>
 				<div class="col-md-4 registration-content">
-					<h2>Личная информация</h2>
-					<div class="form-group">
+					<h2 class="margin-top-10">Личная информация</h2>
+					<div class="form-group margin-bottom-20 margin-top-20">
 						<input type="text" class="form-control" placeholder="Ваше имя" name="name" id="name" ng-model="user.name" ng-change="validateName()" />
 						<code class="ng-hide" ng-show="error.name==true">Введите ФИО</code>
 					</div>
-					<div class="form-group">
+					<div class="form-group margin-bottom-20">
 						<input type="text" class="form-control" placeholder="E-mail" name="mail" id="mail" ng-model="user.mail" ng-change="validateMail()" ng-blur="checkIsEmptyMail()" />
 						<code class="ng-hide" ng-show="error.mail==true">Не верный формат электронной почты</code>
 					</div>
-					<div class="form-group">
+					<div class="form-group margin-bottom-20">
 						<input type="text" class="form-control" placeholder="Ваш телефон" name="login" id="login" ui-mask="{{phone.maskTemplate}}" ng-model="user.login" ng-change="validatePhone()" ui-mask-placeholder />
 						<code class="ng-hide" ng-show="error.login==true">Введите номер телефона</code>
 					</div>
-					<div class="form-group form-control-password">
+					<div class="form-group margin-bottom-20 form-control-password">
 						<input type="password" class="form-control form-control-pwd" placeholder="Пароль (минимум 6 символов)" name="password" id="password" ng-model="user.password" ng-change="validatePassword()" data-toggle="password" data-message="Показать/скрыть пароль" />
 						<code class="ng-hide" ng-show="error.password==true">Не верный формат пароля. Пароль может состоять из заглавных и прописных латинских букв, цифр и служебных символов: !@^*-.,+= длинной от 6 до 16 символов</code>
 					</div>
@@ -68,7 +68,7 @@
 			</div>
 		</div>
 		<div class="row">
-            <div class="col-md-12 margin-top-45">
+            <div class="col-md-12 elem-block">
 				<div class="col-md-4">
 					<div class="registration-markers-dot" ng-class="{'active' : secondBlockCompleted() }">
 						2
@@ -76,45 +76,45 @@
 					<div class="registration-markers-line" ng-class="{'active' : secondBlockCompleted(), 'long' : secondBlockHaveErrors() }"></div>
 				</div>
 				<div class="col-md-4 registration-content">
-					<h2>Адрес доставки</h2>
-					<div class="form-group">
+					<h2 class="margin-top-10">Адрес доставки</h2>
+					<div class="form-group margin-bottom-20 margin-top-20">
 						<input type="text" class="form-control" placeholder="г. Москва, ул Тверская-Ямская 1-я, д 2 стр 4" name="address" id="address" ng-model="user.address" ng-change="validateAddress" />
 						<code class="ng-hide" ng-show="error.address==true">Введите адрес доставки</code>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<div class="form-group">
+							<div class="form-group margin-bottom-20">
 								<input type="text" class="form-control" placeholder="Домофон" name="intercom" id="intercom" ng-model="user.intercom" />
 							</div>
 						</div>
 						<div class="col-md-6">
-							<div class="form-group">
+							<div class="form-group margin-bottom-20">
 								<input type="text" class="form-control" placeholder="Этаж" name="storey" id="storey" ng-model="user.storey" />
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<div class="form-group">
+							<div class="form-group margin-bottom-20">
 								<input type="text" class="form-control" placeholder="Подъезд" name="access" id="access" ng-model="user.access" />
 							</div>
 						</div>
 						<div class="col-md-6">
-							<div class="form-group">
+							<div class="form-group margin-bottom-20">
 								<input type="text" class="form-control" placeholder="Квартира\офис" name="apartment" id="apartment" ng-model="user.apartment" />
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group margin-bottom-20">
 						<a href="#" ng-click="showCommentField()">Добавить комментарий к адресу</a>
-						<input ng-show="showComment==true" type="text" class="form-control" placeholder="Комментарий" name="comment" id="comment" ng-model="user.comment" />
+						<textarea ng-show="showComment==true" type="text" class="form-control margin-top-10" placeholder="Комментарий" name="comment" id="comment" ng-model="user.comment" ></textarea>
 					</div>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
 		</div>
 		<div class="row">
-            <div class="col-md-12 margin-top-45 margin-bottom-50">
+            <div class="col-md-12 margin-top-45">
 				<div class="col-md-4">
 					<div class="registration-markers-dot" ng-class="{'active' : thirdBlockCompleted() }">
 						3
@@ -123,15 +123,15 @@
 				</div>
 				<div class="col-md-4 registration-content">
 					<h2>Способ оплаты</h2>
-					<div class="form-group margin-top-30">
+					<div class="form-group margin-top-30 margin-bottom-25">
 						<input type="radio" name="payment" id="payment-1" value="CASH" ng-click="validatePaymentMethod()" ng-model="user.paymentMethod" />
 						<label for="payment-1">Наличными</label>
 					</div>
-					<div class="form-group">
+					<div class="form-group margin-bottom-25">
 						<input type="radio" name="payment" id="payment-2" value="DELIVERY_CARD" ng-click="validatePaymentMethod()" ng-model="user.paymentMethod" />
 						<label for="payment-2">Картой курьеру</label>
 					</div>
-					<div class="form-group">
+					<div class="form-group margin-bottom-25">
 						<input type="radio" name="payment" id="payment-3" value="CARD" ng-click="validatePaymentMethod()" ng-model="user.paymentMethod" />
 						<label for="payment-3">Оплата по карте</label>
 					</div>
@@ -143,7 +143,7 @@
 			</div>
 		</div>
 		<div class="row">
-            <div class="col-md-12 margin-top-45">
+            <div class="col-md-12 elem-block-b">
 				<div class="col-md-4">
 					<div class="registration-markers-dot" ng-class="{'active' : formIsValid() }">
 						<img class="ng-hide registration-check-icon" src="/img/ico_reg_check_off.svg" ng-show="!formIsValid()" />
