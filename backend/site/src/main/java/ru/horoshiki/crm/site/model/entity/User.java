@@ -1,6 +1,8 @@
 package ru.horoshiki.crm.site.model.entity;
 
+import ru.horoshiki.crm.site.model.enums.OrderConfirmType;
 import ru.horoshiki.crm.site.model.enums.PaymentMethods;
+import ru.horoshiki.crm.site.model.enums.Sex;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,6 +26,21 @@ public class User {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "avatar-url")
+    private String avatar;
+
+    @Column(name = "birthday")
+    private Date birthday;
+
+    @Column(name = "sex")
+    private Integer sex;
+
+    @Column(name="order-confirm")
+    private Boolean oderConfirm;
+
+    @Column(name = "order-confirm-type")
+    private Integer orderConfirmType;
 
     @Column(name = "mail")
     private String mail;
@@ -56,10 +73,8 @@ public class User {
     @JoinColumn(name = "user_role")
     private UserRole userRoles;
 
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Phone> phones;
-
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> addresses;
@@ -169,12 +184,29 @@ public class User {
     }
 
     public PaymentMethods getPaymentMethodDef() {
-        return PaymentMethods.valueOf(paymentMethodDef);
+        return PaymentMethods.valueOf(this.paymentMethodDef);
     }
 
     public void setPaymentMethodDef(PaymentMethods paymentMethodDef) {
         this.paymentMethodDef = paymentMethodDef.getValue();
     }
+
+    public Sex getSex(){
+        return Sex.valueOf(this.sex);
+    }
+
+    public void setSex(Sex sex){
+        this.sex = sex.getValue();
+    }
+
+    public OrderConfirmType getOrderConfirmType(){
+        return  OrderConfirmType.valueOf(this.orderConfirmType);
+    }
+
+    public void setOrderConfirmType(OrderConfirmType orderConfirmType){
+        this.orderConfirmType = orderConfirmType.getValue();
+    }
+
 
     public Date getRegistrationKeyGenDate() {
         return registrationKeyGenDate;
@@ -198,5 +230,29 @@ public class User {
 
     public void setDefaultPhone(Phone defaultPhone) {
         this.defaultPhone = defaultPhone;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Boolean getOderConfirm() {
+        return oderConfirm;
+    }
+
+    public void setOderConfirm(Boolean oderConfirm) {
+        this.oderConfirm = oderConfirm;
     }
 }
