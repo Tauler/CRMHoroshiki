@@ -18,7 +18,7 @@ loginControllers.controller('LoginViewController', ['$scope', '$location', 'Acco
 
         //Вход
         $scope.submitLoginForm = function(){
-            AccountService.loginAccount($scope.username, $scope.password).success(function(result){
+            AccountService.loginAccount($scope.login, $scope.password).success(function(result){
                 if(result.success == true){
                     redirect(backUrl);
                 }else{
@@ -62,7 +62,7 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 		$scope.user.id = 0;
 		
 		$scope.submitRegisterForm = function(){
-			AccountService.registerAccount($scope.user.login, $scope.user.password, $scope.user.name, $scope.user.mail, $scope.user.address, $scope.user.intercom, $scope.user.storey, $scope.user.access, $scope.user.apartment, $scope.user.comment, $scope.user.paymentMethod).success(function(result){
+			AccountService.registerAccount($scope.user.id, $scope.user.login, $scope.user.password, $scope.user.name, $scope.user.mail, $scope.user.address, $scope.user.intercom, $scope.user.storey, $scope.user.access, $scope.user.apartment, $scope.user.comment, $scope.user.paymentMethod).success(function(result){
 				if(result.success == true){
                     $scope.showConfirmPage();
 					$scope.user.id = result.data;
@@ -200,7 +200,7 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 		$scope.submitConfirmCode = function(){
 			AccountService.registerConfirm($scope.user.id, $scope.user.code).success(function(result){
 				if(result.success == true){
-                    redirect('/');
+                    $location.path('/account/login');
                 }else{
                     $scope.showCodeError = true;
                 }
