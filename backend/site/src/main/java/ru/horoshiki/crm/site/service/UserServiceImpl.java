@@ -60,8 +60,10 @@ public class UserServiceImpl extends AbstractService<User, UserDAO> implements U
 
         user.setRegistrationKeyGenDate(new Date());
         user.setRegistrationKey(code);
+        user.setBlank(false);
+        user.setEnabled(true);
         update(user);
-        smsSender.send("7".concat(user.getLogin()), "Ваш код подтверждения регистрации: "+code);
+        smsSender.send("7".concat(user.getLogin()), "Код подтверждения: "+code);
     }
 
     public SmsSender getSmsSender() {
