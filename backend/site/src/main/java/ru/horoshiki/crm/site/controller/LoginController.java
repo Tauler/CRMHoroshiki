@@ -25,6 +25,7 @@ import ru.horoshiki.crm.site.model.dto.BackendData;
 import ru.horoshiki.crm.site.model.entity.Address;
 import ru.horoshiki.crm.site.model.entity.Phone;
 import ru.horoshiki.crm.site.model.entity.User;
+import ru.horoshiki.crm.site.model.entity.UserRole;
 import ru.horoshiki.crm.site.model.enums.PaymentMethods;
 import ru.horoshiki.crm.site.service.UserService;
 
@@ -148,6 +149,8 @@ public class LoginController {
         user.setPhones(phones);
         user.setDefaultPhone(phoneDef);
 
+        UserRole role = new UserRole();
+        role.setId(1L);
 
         List<Address> addresses = new ArrayList<>();
         Address addressDef = new Address();

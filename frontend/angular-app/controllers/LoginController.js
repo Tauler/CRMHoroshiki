@@ -228,3 +228,20 @@ loginControllers.controller('ConfirmViewController', ['$scope', '$location',
 		$location.path('/account/registration');
 	}
 ]);
+
+loginControllers.controller('ProfileViewController', ['$scope', '$location', 'AccountService',
+    function ($scope, $location, AccountService) {
+	
+		$scope.currentUser = {};
+
+        AccountService.getCurrentUser().success(function (result) {
+			if (result.success == true) {
+				$scope.currentUser = result.Data;
+			} else {
+				displayErrorMessage($scope.translation[result.reason]);
+			}
+		}).error(function (result, status) {
+			httpErrors($location.url(), status);
+		});
+    }
+]);

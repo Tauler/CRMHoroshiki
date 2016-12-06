@@ -777,3 +777,54 @@ span.form-control-password-active{
 .registration-rules{
 	min-height: 40px;
 }
+
+.profile-links{
+	width: 150px;
+	height: 50px;
+	float: left;
+	text-align: center;
+}
+
+.profile-links a{
+	margin-top: 15px;
+	color: #000000;
+	display: block;
+}
+
+.profile-avatar, .profile-username{
+	text-align: left;
+	float: left;
+}
+
+.profile-username{
+	padding-left: 20px;
+}
+
+.profile-avatar img{
+	border-radius: 50%;
+	border: 1px solid #d6a461;
+	width: 50px;
+	height: 50px;
+}
+
+.profile-nav{
+	margin: 0 auto;
+}
+
+@media (min-width: 1200px) {
+	.profile-nav{
+		width: 85%;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	.profile-nav{
+		
+	}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.profile-nav{
+		
+	}
+}

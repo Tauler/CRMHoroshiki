@@ -44,4 +44,6 @@ accountServices.service('AccountService', ['$http', function($http) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
         });
     }
+	
+	this.getCurrentUser = function() {return $http.get(backendServerAddr+'/user/getCurrentUser'); }
 }]);
