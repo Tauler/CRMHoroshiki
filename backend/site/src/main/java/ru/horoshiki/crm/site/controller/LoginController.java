@@ -151,6 +151,7 @@ public class LoginController {
 
         UserRole role = new UserRole();
         role.setId(1L);
+        user.setUserRoles(role);
 
         List<Address> addresses = new ArrayList<>();
         Address addressDef = new Address();
