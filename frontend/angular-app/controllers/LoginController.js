@@ -5,7 +5,7 @@ loginControllers.controller('LoginViewController', ['$scope', '$location', 'Acco
 
         var backUrl = $location.$$search.backUrl;
 
-        if(backUrl == undefined || backUrl == true || backUrl == "" || backUrl.indexOf("/account/login") >= 0 || backUrl.indexOf("/account/registration") >= 0 || backUrl.indexOf("/account/confirm") >= 0){
+        if(backUrl == undefined || backUrl == true || backUrl == ""){
             backUrl = "/";
         }
 		
@@ -252,17 +252,6 @@ loginControllers.controller('ConfirmViewController', ['$scope', '$location',
 
 loginControllers.controller('ProfileViewController', ['$scope', '$location', 'AccountService',
     function ($scope, $location, AccountService) {
-	
-		$scope.currentUser = {};
-
-        AccountService.getCurrentUser().success(function (result) {
-			if (result.success == true) {
-				$scope.currentUser = result.Data;
-			} else {
-				displayErrorMessage($scope.translation[result.reason]);
-			}
-		}).error(function (result, status) {
-			httpErrors($location.url(), status);
-		});
+		
     }
 ]);

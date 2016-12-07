@@ -16,6 +16,7 @@ body{
 	font-family: 'GothamPro';
 	background-color: #F5F5F5;
 	font-size: 14px;
+	overflow-y: scroll;
 }
 
 h1{
@@ -493,6 +494,7 @@ input[type=checkbox] + label:before{
 	border: 0px;
 	border-bottom: 1px solid #D4A462;
 	outline: 1px solid #E9E5E6;
+	margin-bottom: 15px;
 }
 
 .navbar-brand{
@@ -786,17 +788,27 @@ textarea[name=regcomment]{
 }
 
 .profile-links{
-	height: 50px;
+	min-width: 150px;
+	height: 65px;
 	float: left;
 	text-align: center;
 	padding-left: 20px;
 	padding-right: 20px;
+	margin-bottom: -1px;
 }
 
 .profile-links a{
 	margin-top: 15px;
 	color: #000000;
 	display: block;
+}
+
+.profile-links.active{
+	border-bottom: 1px solid #d59a4b;
+}
+
+.profile-links.first{
+	padding-left: 0px;
 }
 
 .profile-avatar, .profile-username{
@@ -806,6 +818,11 @@ textarea[name=regcomment]{
 
 .profile-username{
 	padding-left: 20px;
+	padding-top: 5px;
+}
+
+.profile-username p{
+	margin-bottom: 0px;
 }
 
 .profile-avatar img{
@@ -816,23 +833,6 @@ textarea[name=regcomment]{
 }
 
 .profile-nav{
-	margin: 0 auto;
-}
-
-@media (min-width: 1200px) {
-	.profile-nav{
-		width: 85%;
-	}
-}
-
-@media (min-width: 992px) and (max-width: 1199px) {
-	.profile-nav{
-		
-	}
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-	.profile-nav{
-		
-	}
+	border-bottom: 1px solid #e7e7e7;
+	margin-bottom: 30px;
 }

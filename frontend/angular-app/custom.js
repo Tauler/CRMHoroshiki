@@ -11,6 +11,13 @@ var numberWithDotRegexp = /^[0-9.]+$/;
 
 var phoneMaskTemplate = "+7 (999) 999-99-99";
 
+var publicUrls = [
+	'/account/login',
+	'/account/registration',
+	'/account/confirm',
+	'/account/error'
+];
+
 function httpErrors(url, status){
     switch(status){
         case 401:
