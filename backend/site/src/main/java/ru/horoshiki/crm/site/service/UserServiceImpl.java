@@ -7,6 +7,7 @@ import ru.horoshiki.crm.sendsms.SmsSender;
 import ru.horoshiki.crm.site.RegexpValues;
 import ru.horoshiki.crm.site.dao.UserDAO;
 import ru.horoshiki.crm.site.model.entity.User;
+import ru.horoshiki.crm.site.utils.SmsUtils;
 
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
@@ -54,10 +55,7 @@ public class UserServiceImpl extends AbstractService<User, UserDAO> implements U
     @Override
     @Transactional
     public void sendConfirmSms(User user) {
-        int min = 1000;
-        int max = 9999;
-        String code = String.valueOf(ThreadLocalRandom.current().nextInt(min, max + 1));
-
+        String code = SmsUtils.generateCode();
         user.setRegistrationKeyGenDate(new Date());
         user.setRegistrationKey(code);
         user.setBlank(false);

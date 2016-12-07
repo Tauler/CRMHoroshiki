@@ -17,6 +17,12 @@ public class Phone {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "new_phone")
+    private String newPhone;
+
+    @Column(name = "confirm_code")
+    private String confirmCode;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -45,4 +51,19 @@ public class Phone {
         this.phone = phone;
     }
 
+    public String getNewPhone() {
+        return newPhone;
+    }
+
+    public void setNewPhone(String newPhone) {
+        this.newPhone = newPhone;
+    }
+
+    public String getConfirmCode() {
+        return confirmCode;
+    }
+
+    public void setConfirmCode(String confirmCode) {
+        this.confirmCode = confirmCode;
+    }
 }
