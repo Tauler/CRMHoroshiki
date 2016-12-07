@@ -36,7 +36,7 @@ accountServices.service('AccountService', ['$http', function($http) {
         });
     }
 	
-	this.resendConfirmSms = function(userId, code) {
+	this.resendConfirmSms = function(userId) {
         return $http({
             method: 'POST',
             url: backendServerAddr+'/resendConfirmSms',
@@ -46,4 +46,13 @@ accountServices.service('AccountService', ['$http', function($http) {
     }
 	
 	this.getCurrentUser = function() {return $http.get(backendServerAddr+'/user/getCurrentUser'); }
+	
+	this.isLoginExists = function(login, isBlank) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/isLogin',
+            data: 'login='+login+'&isBlank='+isBlank,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
 }]);

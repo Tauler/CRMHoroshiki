@@ -58,3 +58,23 @@ function resizeFooter(){
     var contentHeight = $(window).height() - 150;
     $(".content-wrapper").css("min-height", contentHeight + "px");
 }
+
+function displayErrorMessage(text){
+    if(typeof text === 'undefined'){
+        text = '';
+    }
+
+    if(text.length>0){
+        $('#serverErrorModalBody').html(text);
+    }
+
+    $('#serverErrorModal').modal();
+}
+
+function closeModal(id){
+    $('#'+id).modal('hide');
+}
+
+function showModal(id){
+    $('#'+id).modal('show');
+}

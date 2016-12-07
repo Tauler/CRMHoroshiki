@@ -7,16 +7,11 @@
 					<h1>Подтвердите телефон</h1>
 					<p class="margin-top-40">Мы отправили код подтверждения на номер {{user.login}}</p>
 					<div class="form-group elem-block-h">
-						<input type="text" class="form-control" placeholder="Код из СМС" name="code" id="code" ng-model="user.code" />
-						<code class="ng-hide" ng-show="showCodeError==true">Укажите верный код подтверждения</code>
+						<input type="text" class="form-control" placeholder="Код из СМС" name="code" id="code" ng-model="user.code" ng-change="validateConfirmCode()" />
+						<code class="ng-hide" ng-show="error.code==true">Укажите верный код подтверждения</code>
 					</div>
 					<div class="form-group margin-top-25">
-						<button type="submit" ng-click="submitConfirmCode()" type="button" class="btn btn-horoshiki">
-							ОК
-						</button>
-					</div>
-					<div class="form-group margin-top-25">
-						<a href="#" ng-click="">Выслать еще раз</a>
+						<a href="#" ng-click="resendConfirmCode()">Выслать еще раз</a>
 					</div>
 					<div class="form-group">
 						<a href="#" ng-click="showRegistrationPage()">Изменить номер</a>
@@ -58,6 +53,7 @@
 					<div class="form-group margin-bottom-20">
 						<input type="text" class="form-control" placeholder="Ваш телефон" name="login" id="login" ui-mask="{{phone.maskTemplate}}" ng-model="user.login" ng-change="validatePhone()" ui-mask-placeholder />
 						<code class="ng-hide" ng-show="error.login==true">Введите номер телефона</code>
+						<code class="ng-hide" ng-show="error.loginExists==true">Номер телефона уже зарегистрирован в системе</code>
 					</div>
 					<div class="form-group margin-bottom-20 form-control-password">
 						<input type="password" class="form-control form-control-pwd" placeholder="Пароль (минимум 6 символов)" name="password" id="password" ng-model="user.password" ng-change="validatePassword()" data-toggle="password" data-message="Показать/скрыть пароль" />
@@ -78,7 +74,7 @@
 				<div class="col-md-4 registration-content">
 					<h2 class="margin-top-10">Адрес доставки</h2>
 					<div class="form-group margin-bottom-20 margin-top-20">
-						<input type="text" class="form-control" placeholder="г. Москва, ул Тверская-Ямская 1-я, д 2 стр 4" name="address" id="address" ng-model="user.address" ng-change="validateAddress" />
+						<input type="text" class="form-control" placeholder="г. Москва, ул Тверская-Ямская 1-я, д 2 стр 4" name="address" id="address" ng-model="user.address" ng-change="validateAddress()" />
 						<code class="ng-hide" ng-show="error.address==true">Введите адрес доставки</code>
 					</div>
 					<div class="row">
@@ -107,7 +103,7 @@
 					</div>
 					<div class="form-group margin-bottom-20">
 						<a href="#" ng-click="showCommentField()">Добавить комментарий к адресу</a>
-						<textarea ng-show="showComment==true" type="text" class="form-control margin-top-10" placeholder="Комментарий" name="comment" id="comment" ng-model="user.comment" ></textarea>
+						<textarea ng-show="showComment==true" type="text" class="form-control margin-top-10" placeholder="Комментарий" name="regcomment" id="regcomment" ng-model="user.comment" ></textarea>
 					</div>
 				</div>
 				<div class="col-md-4"></div>
@@ -119,7 +115,7 @@
 					<div class="registration-markers-dot" ng-class="{'active' : thirdBlockCompleted() }">
 						3
 					</div>
-					<div class="registration-markers-line" ng-class="{'active' : thirdBlockCompleted() }"></div>
+					<div class="registration-markers-line last" ng-class="{'active' : thirdBlockCompleted() }"></div>
 				</div>
 				<div class="col-md-4 registration-content">
 					<h2>Способ оплаты</h2>
