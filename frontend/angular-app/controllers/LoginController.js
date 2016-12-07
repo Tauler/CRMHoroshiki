@@ -62,7 +62,7 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 		$scope.user.id = 0;
 		
 		$scope.submitRegisterForm = function(){
-			AccountService.registerAccount($scope.user.login, $scope.user.password, $scope.user.name, $scope.user.mail, $scope.user.address, $scope.user.intercom, $scope.user.storey, $scope.user.access, $scope.user.apartment, $scope.user.comment, $scope.user.paymentMethod).success(function(result){
+			AccountService.registerAccount($scope.user.id, $scope.user.login, $scope.user.password, $scope.user.name, $scope.user.mail, $scope.user.address, $scope.user.intercom, $scope.user.storey, $scope.user.access, $scope.user.apartment, $scope.user.comment, $scope.user.paymentMethod).success(function(result){
 				if(result.success == true){
                     $scope.showConfirmPage();
 					$scope.user.id = result.data;
@@ -77,6 +77,7 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 		$scope.error = {};
 		
 		$scope.error.login = false;
+		$scope.error.loginExists = false;
 		$scope.error.password = false;
 		$scope.error.name = false;
 		$scope.error.mail = false;
@@ -87,7 +88,7 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 		$scope.error.apartment = false;
 		$scope.error.comment = false;
 		$scope.error.paymentMethod = false;
-		$scope.error.code = '';
+		$scope.error.code = false;
 
 		$scope.validateName = function(){
 			$scope.error.name = false;
@@ -98,8 +99,21 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 		
 		$scope.validatePhone = function(){
 			$scope.error.login = false;
+			$scope.error.loginExists = false;
 			if(!userPhoneRegexp.test($scope.user.login)){
 				$scope.error.login = true;
+			}else{
+				AccountService.isLoginExists($scope.user.login, true).success(function(result){
+					if(result.success == true){
+						if(result.data == true){
+							$scope.error.loginExists = true;
+						}
+					}else{
+						displayErrorMessage($scope.translation[result.reason]);
+					}
+				}).error(function(result, status){
+					httpErrors($location.url(), status);
+				});
 			}
 		}
 		
@@ -154,7 +168,7 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 		}
 		
 		$scope.firstBlockHaveErrors = function(){
-			return $scope.error.name == true || $scope.error.login == true || $scope.error.mail == true || $scope.error.password == true;
+			return $scope.error.name == true || $scope.error.login == true || $scope.error.loginExists == true || $scope.error.mail == true || $scope.error.password == true;
 		}
 		
 		$scope.secondBlockHaveErrors = function(){
@@ -190,23 +204,30 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 			$scope.page.showConfirm = false;
 			
 			$scope.user.login = '';
-			
-			$("#login").focus();
-			
 			$location.path('/account/registration', false);
+			
+			setTimeout(function(){
+				$("#login").focus();
+			}, 1200);
 		}
 		
-		$scope.showCodeError = false;
-		$scope.submitConfirmCode = function(){
-			AccountService.registerConfirm($scope.user.id, $scope.user.code).success(function(result){
-				if(result.success == true){
-                    redirect('/');
-                }else{
-                    $scope.showCodeError = true;
-                }
-            }).error(function(result, status){
-                httpErrors($location.url(), status);
-            });
+		$scope.validateConfirmCode = function(){
+			$scope.error.code = false;
+			if(!numberRegexp.test($scope.user.code)){
+				$scope.error.code = true;
+			}else{
+				if($scope.user.code.length == 4){
+					AccountService.registerConfirm($scope.user.id, $scope.user.code).success(function(result){
+						if(result.success == true){
+							$location.path('/account/login');
+						}else{
+							$scope.error.code = true;
+						}
+					}).error(function(result, status){
+						httpErrors($location.url(), status);
+					});
+				}
+			}
 		}
 		
 		$scope.resendConfirmCode = function(){
@@ -214,7 +235,7 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 				if(result.success == true){
                     
                 }else{
-                    $scope.showCodeError = true;
+                    displayErrorMessage($scope.translation[result.reason]);
                 }
             }).error(function(result, status){
                 httpErrors($location.url(), status);
@@ -227,4 +248,21 @@ loginControllers.controller('ConfirmViewController', ['$scope', '$location',
     function ($scope, $location) {
 		$location.path('/account/registration');
 	}
+]);
+
+loginControllers.controller('ProfileViewController', ['$scope', '$location', 'AccountService',
+    function ($scope, $location, AccountService) {
+	
+		$scope.currentUser = {};
+
+        AccountService.getCurrentUser().success(function (result) {
+			if (result.success == true) {
+				$scope.currentUser = result.Data;
+			} else {
+				displayErrorMessage($scope.translation[result.reason]);
+			}
+		}).error(function (result, status) {
+			httpErrors($location.url(), status);
+		});
+    }
 ]);

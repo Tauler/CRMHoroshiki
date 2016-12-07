@@ -33,22 +33,32 @@ horoshikiLkApp.config(['$locationProvider', '$httpProvider', '$routeProvider',
              .when('/error', {
                 templateUrl: '/angular-html/error.view.html',
                 controller: 'ErrorViewController',
+				pageId: 'errorViewPage',
                 title: 'Что-то пошло не так ...'
             })
 			.when('/account/login', {
                 templateUrl: '/angular-html/login.view.html',
                 controller: 'LoginViewController',
+				pageId: 'loginViewPage',
                 title: 'Авторизация'
             })
 			.when('/account/registration', {
                 templateUrl: '/angular-html/registration.view.html',
                 controller: 'RegistrationViewController',
+				pageId: 'registerViewPage',
                 title: 'Регистрация'
             })
 			.when('/account/confirm', {
                 templateUrl: '/angular-html/confirm.view.html',
                 controller: 'ConfirmViewController',
+				pageId: 'confirmViewPage',
                 title: 'Регистрация'
+            })
+			.when('/account/profile', {
+                templateUrl: '/angular-html/profile.view.html',
+                controller: 'ProfileViewController',
+				pageId: 'profileViewPage',
+                title: 'Профиль пользователя'
             })
             .otherwise({
                 redirectTo: '/'

@@ -18,11 +18,11 @@ accountServices.service('AccountService', ['$http', function($http) {
         });
     }
 
-    this.registerAccount = function(login, password, name, mail, address, intercom, storey, access, apartment, comment, paymentMethod) {
+    this.registerAccount = function(userId, login, password, name, mail, address, intercom, storey, access, apartment, comment, paymentMethod) {
         return $http({
             method: 'POST',
             url: backendServerAddr+'/registration',
-            data: 'login='+login+'&password='+password+'&name='+name+'&mail='+mail+'&address='+address+'&intercom='+intercom+'&storey='+storey+'&access='+access+'&apartment='+apartment+'&comment='+comment+'&paymentMethod='+paymentMethod,
+            data: '&userId='+userId+'&login='+login+'&password='+password+'&name='+name+'&mail='+mail+'&address='+address+'&intercom='+intercom+'&storey='+storey+'&access='+access+'&apartment='+apartment+'&comment='+comment+'&paymentMethod='+paymentMethod,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
         });
     }
@@ -36,11 +36,22 @@ accountServices.service('AccountService', ['$http', function($http) {
         });
     }
 	
-	this.resendConfirmSms = function(userId, code) {
+	this.resendConfirmSms = function(userId) {
         return $http({
             method: 'POST',
             url: backendServerAddr+'/resendConfirmSms',
             data: 'userId='+userId,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.getCurrentUser = function() {return $http.get(backendServerAddr+'/user/getCurrentUser'); }
+	
+	this.isLoginExists = function(login, isBlank) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/isLogin',
+            data: 'login='+login+'&isBlank='+isBlank,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
         });
     }

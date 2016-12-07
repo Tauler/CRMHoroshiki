@@ -27,7 +27,7 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "avatar-url")
+    @Column(name = "avatar_url")
     private String avatar;
 
     @Column(name = "birthday")
@@ -36,10 +36,10 @@ public class User {
     @Column(name = "sex")
     private Integer sex;
 
-    @Column(name="order-confirm")
+    @Column(name="order_confirm")
     private Boolean oderConfirm;
 
-    @Column(name = "order-confirm-type")
+    @Column(name = "order_confirm_type")
     private Integer orderConfirmType;
 
     @Column(name = "mail")
