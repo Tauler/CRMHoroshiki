@@ -142,9 +142,10 @@ public class LoginController {
         user.setName(HtmlUtils.htmlEscape(name));
         user.setMail(HtmlUtils.htmlEscape(mail));
 
-        Set<Phone> phones = new HashSet<>();
+        List<Phone> phones = new ArrayList<>();
         Phone phoneDef = new Phone();
         phoneDef.setPhone(HtmlUtils.htmlEscape(login));
+        phoneDef.setUser(user);
         phones.add(phoneDef);
         user.setPhones(phones);
         user.setDefaultPhone(phoneDef);
@@ -153,9 +154,10 @@ public class LoginController {
         role.setId(1L);
         user.setUserRoles(role);
 
-        Set<Address> addresses = new HashSet<>();
+        List<Address> addresses = new ArrayList<>();
         Address addressDef = new Address();
         addressDef.setAddress(HtmlUtils.htmlEscape(address));
+        addressDef.setUser(user);
         if(intercom!=null)
             addressDef.setIntercom(HtmlUtils.htmlEscape(intercom));
         if(storey!=null)
@@ -190,7 +192,7 @@ public class LoginController {
         if(user==null)
             return BackendData.error("userNotFoundError");
         user.setPassword("");
-        user.setAddresses(null);
+//        user.setAddresses(null);
         user.setPhones(null);
         user.setUserRoles(null);
         return BackendData.success(user);

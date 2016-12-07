@@ -1,6 +1,12 @@
 package ru.horoshiki.crm.site.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Created by onyushkindv on 29.11.2016.
@@ -23,7 +29,8 @@ public class Phone {
     @Column(name = "confirm_code")
     private String confirmCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

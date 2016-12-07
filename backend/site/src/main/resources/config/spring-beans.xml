@@ -22,6 +22,11 @@
                      <ref bean="sessionFactory"/>
               </constructor-arg>
        </bean>
+       <bean id="phoneDAP" class="ru.horoshiki.crm.site.dao.PhoneDAOImpl">
+              <constructor-arg>
+                     <ref bean="sessionFactory"/>
+              </constructor-arg>
+       </bean>
 
 
 
@@ -36,7 +41,9 @@
        <bean id="testDBService" class="ru.horoshiki.crm.site.service.TestDBServiceImpl">
               <property name="dao" ref="testDBDAO"/>
        </bean>
-
+       <bean id="phoneService" class="ru.horoshiki.crm.site.service.PhoneServiceImpl">
+              <property name="dao" ref="phoneDAP"/>
+       </bean>
        <!--<bean id="balancerAPI" class="ru.spacecam.vsp.api.balancer.BalancerConfigurationAPI">-->
               <!--<constructor-arg name="httpClientService" ref="httpClientService"/>-->
               <!--<constructor-arg name="httpDataSource" ref="httpDataSource"/>-->

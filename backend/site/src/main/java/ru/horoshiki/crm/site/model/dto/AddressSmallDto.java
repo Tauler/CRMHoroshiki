@@ -1,57 +1,47 @@
-package ru.horoshiki.crm.site.model.entity;
+package ru.horoshiki.crm.site.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import ru.horoshiki.crm.site.model.entity.Address;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by onyushkindv on 29.11.2016.
+ * Created by onyushkindv on 07.12.2016.
  */
-
-@Entity
-@Table(name = "ADDRESSES")
-public class Address {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ADDRESSES_SEQ")
-    @SequenceGenerator(name = "ADDRESSES_SEQ", sequenceName = "ADDRESSES_SEQ", allocationSize = 1)
+public class AddressSmallDto {
     private Long id;
 
-    //адрес
-    @Column(name = "address")
     private String address;
 
-    //код домофона
-    @Column(name = "intercom")
     private String intercom;
 
-    // этаж
-    @Column(name = "storey")
     private Integer storey;
 
-    // подъезд
-    @Column(name = "access")
     private Integer access;
 
-    // квартира
-    @Column(name = "apartment")
     private Integer apartment;
 
-    //комментарий
-    @Column(name = "comment")
     private String comment;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    public User getUser() {
-        return user;
+    public static AddressSmallDto valueOf(Address address){
+        AddressSmallDto addressSmallDto = new AddressSmallDto();
+        addressSmallDto.setId(address.getId());
+        addressSmallDto.setAccess(address.getAccess());
+        addressSmallDto.setAddress(address.getAddress());
+        addressSmallDto.setApartment(address.getApartment());
+        addressSmallDto.setComment(address.getComment());
+        addressSmallDto.setIntercom(address.getIntercom());
+        addressSmallDto.setStorey(address.getStorey());
+        return addressSmallDto;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public static List<AddressSmallDto> valueOf(List<Address> addresses){
+        List<AddressSmallDto> addressSmallDtos = new ArrayList<>();
+        for(Address a: addresses){
+            addressSmallDtos.add(valueOf(a));
+        }
+        return addressSmallDtos;
     }
 
     public Long getId() {
@@ -109,4 +99,6 @@ public class Address {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+
 }

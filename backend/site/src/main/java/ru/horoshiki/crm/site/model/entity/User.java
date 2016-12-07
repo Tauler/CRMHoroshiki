@@ -1,10 +1,14 @@
 package ru.horoshiki.crm.site.model.entity;
 
+import org.hibernate.annotations.*;
 import ru.horoshiki.crm.site.model.enums.OrderConfirmType;
 import ru.horoshiki.crm.site.model.enums.PaymentMethods;
 import ru.horoshiki.crm.site.model.enums.Sex;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -74,11 +78,13 @@ public class User {
     @JoinColumn(name = "user_role")
     private UserRole userRoles;
 
+    @OrderColumn
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Phone> phones;
+    private List<Phone> phones;
 
+    @OrderColumn
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Address> addresses;
+    private List<Address> addresses;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "def_address")
@@ -108,19 +114,19 @@ public class User {
         this.paymentMethodDef = paymentMethodDef;
     }
 
-    public Set<Phone> getPhones() {
+    public List<Phone> getPhones() {
         return phones;
     }
 
-    public void setPhones(Set<Phone> phones) {
+    public void setPhones(List<Phone> phones) {
         this.phones = phones;
     }
 
-    public Set<Address> getAddresses() {
+    public List<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Set<Address> addresses) {
+    public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 
