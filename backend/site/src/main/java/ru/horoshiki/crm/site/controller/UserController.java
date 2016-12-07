@@ -15,6 +15,8 @@ import ru.horoshiki.crm.site.service.UserService;
 import ru.horoshiki.crm.site.utils.SmsUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by onyushkindv on 06.12.2016.
@@ -66,7 +68,7 @@ public class UserController {
         smsSender.send("7".concat(user.getLogin()), "Код подтверждения: "+code);
 
         if(user.getPhones()==null)
-            user.setPhones(new ArrayList<>());
+            user.setPhones(new HashSet<>());
 
         user.getPhones().add(phone);
         userService.update(user);

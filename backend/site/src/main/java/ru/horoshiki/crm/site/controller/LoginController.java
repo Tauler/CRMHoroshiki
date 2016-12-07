@@ -142,7 +142,7 @@ public class LoginController {
         user.setName(HtmlUtils.htmlEscape(name));
         user.setMail(HtmlUtils.htmlEscape(mail));
 
-        ArrayList<Phone> phones = new ArrayList<>();
+        Set<Phone> phones = new HashSet<>();
         Phone phoneDef = new Phone();
         phoneDef.setPhone(HtmlUtils.htmlEscape(login));
         phones.add(phoneDef);
@@ -153,7 +153,7 @@ public class LoginController {
         role.setId(1L);
         user.setUserRoles(role);
 
-        List<Address> addresses = new ArrayList<>();
+        Set<Address> addresses = new HashSet<>();
         Address addressDef = new Address();
         addressDef.setAddress(HtmlUtils.htmlEscape(address));
         if(intercom!=null)

@@ -7,6 +7,7 @@ import ru.horoshiki.crm.site.model.enums.Sex;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by onyushkindv on 28.11.2016.
@@ -74,10 +75,10 @@ public class User {
     private UserRole userRoles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Phone> phones;
+    private Set<Phone> phones;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Address> addresses;
+    private Set<Address> addresses;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "def_address")
@@ -95,19 +96,31 @@ public class User {
         this.login = login;
     }
 
-    public List<Phone> getPhones() {
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public void setOrderConfirmType(Integer orderConfirmType) {
+        this.orderConfirmType = orderConfirmType;
+    }
+
+    public void setPaymentMethodDef(Integer paymentMethodDef) {
+        this.paymentMethodDef = paymentMethodDef;
+    }
+
+    public Set<Phone> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<Phone> phones) {
+    public void setPhones(Set<Phone> phones) {
         this.phones = phones;
     }
 
-    public List<Address> getAddresses() {
+    public Set<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
     }
 
