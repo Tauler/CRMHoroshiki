@@ -788,12 +788,11 @@ textarea[name=regcomment]{
 }
 
 .profile-links{
-	min-width: 150px;
 	height: 65px;
 	float: left;
 	text-align: center;
-	padding-left: 20px;
-	padding-right: 20px;
+	margin-left: 25px;
+	margin-right: 25px;
 	margin-bottom: -1px;
 }
 
@@ -808,24 +807,24 @@ textarea[name=regcomment]{
 }
 
 .profile-links.first{
-	padding-left: 0px;
+	margin-left: 0px;
 }
 
-.profile-avatar, .profile-username{
+.profile-nav-avatar, .profile-nav-username{
 	text-align: left;
 	float: left;
 }
 
-.profile-username{
+.profile-nav-username{
 	padding-left: 20px;
 	padding-top: 5px;
 }
 
-.profile-username p{
+.profile-nav-username p{
 	margin-bottom: 0px;
 }
 
-.profile-avatar img{
+.profile-nav-avatar img{
 	border-radius: 50%;
 	border: 1px solid #d6a461;
 	width: 50px;
@@ -835,4 +834,48 @@ textarea[name=regcomment]{
 .profile-nav{
 	border-bottom: 1px solid #e7e7e7;
 	margin-bottom: 30px;
+}
+
+.profile-avatar{
+	
+}
+
+.profile-avatar img{
+	border-radius: 50%;
+	border: 1px solid #d6a461;
+	width: 120px;
+	height: 120px;
+}
+
+.profile-content{
+	min-width: auto;
+}
+
+.profile-content-spacer{
+	
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	.profile-content{
+		min-width: 650px;
+	}
+	
+	.profile-content-spacer{
+		max-width: 130px;		
+	}
+}
+
+@media (min-width: 1200px) {
+	.profile-content{
+		min-width: 650px;
+	}
+	
+	.profile-content-spacer{
+		max-width: 230px;		
+	}
+}
+
+.profile-devider{
+	height: 1px;
+	border-bottom: 1px dotted #d59a4b;
 }
