@@ -5,8 +5,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-
-
        <bean id="userDAO" class="ru.horoshiki.crm.site.dao.UserDAOImpl">
               <constructor-arg>
                      <ref bean="sessionFactory"/>
@@ -22,12 +20,16 @@
                      <ref bean="sessionFactory"/>
               </constructor-arg>
        </bean>
-       <bean id="phoneDAP" class="ru.horoshiki.crm.site.dao.PhoneDAOImpl">
+       <bean id="phoneDAO" class="ru.horoshiki.crm.site.dao.PhoneDAOImpl">
               <constructor-arg>
                      <ref bean="sessionFactory"/>
               </constructor-arg>
        </bean>
-
+       <bean id="addressDAO" class="ru.horoshiki.crm.site.dao.AddressDAOImpl">
+              <constructor-arg>
+                     <ref bean="sessionFactory"/>
+              </constructor-arg>
+       </bean>
 
 
 
@@ -42,7 +44,10 @@
               <property name="dao" ref="testDBDAO"/>
        </bean>
        <bean id="phoneService" class="ru.horoshiki.crm.site.service.PhoneServiceImpl">
-              <property name="dao" ref="phoneDAP"/>
+              <property name="dao" ref="phoneDAO"/>
+       </bean>
+       <bean id="AddressService" class="ru.horoshiki.crm.site.service.AddressServiceImpl">
+              <property name="dao" ref="addressDAO"/>
        </bean>
        <!--<bean id="balancerAPI" class="ru.spacecam.vsp.api.balancer.BalancerConfigurationAPI">-->
               <!--<constructor-arg name="httpClientService" ref="httpClientService"/>-->
