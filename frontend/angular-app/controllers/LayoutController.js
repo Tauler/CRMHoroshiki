@@ -9,12 +9,6 @@ layoutControllers.controller('HeaderController', ['$scope', '$rootScope',
     }
 ]);
 
-layoutControllers.controller('LoginLayoutController', ['$scope', 'TranslationService', 'BackendService',
-    function ($scope, TranslationService, BackendService) {
-		
-    }
-]);
-
 layoutControllers.controller('LayoutController', ['$scope', '$rootScope', '$location', 'TranslationService', 'AccountService', 'BackendService',
     function ($scope, $rootScope, $location, TranslationService, AccountService, BackendService) {
 
@@ -27,11 +21,38 @@ layoutControllers.controller('LayoutController', ['$scope', '$rootScope', '$loca
             TranslationService.getTranslation($scope);
         };
         $scope.translate();
+		
+		//Текущий пользователь
+		$scope.initCurrentUserModel = function(){
+            $rootScope.currentUser = {};
+            $rootScope.currentUserLoaded = false;
+        }
+        $scope.initCurrentUserModel();
+		
+		$scope.getCurrentUser = function(){
+			AccountService.getCurrentUser().success(function (result) {
+				if (result.success == true) {
+					$rootScope.currentUser = result.data;
+                    $rootScope.currentUserLoaded = true;
+                    $rootScope.$broadcast('currentUserLoadedEvent');
+				} else {
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function (result, status) {
+				if(status == 403){
+					if(publicUrls.indexOf($location.url()) == -1){
+						$location.url("/account/login?backUrl="+$location.url());
+					}
+				}else{
+					httpErrors($location.url(), status);
+				}
+			});
+		}
 
         // Проверка доступности бэкэнда
         BackendService.checkIsAvailable().success(function(result){
             if(result.success == true){
-                
+                $scope.getCurrentUser();
 			}else{
 				redirectBackendError();
 			}
@@ -41,7 +62,15 @@ layoutControllers.controller('LayoutController', ['$scope', '$rootScope', '$loca
 
         //Выход
         $scope.logoutButton = function () {
-            // redirectToMainSite();
+            AccountService.logoutAccount().success(function (result) {
+				if (result.success == true) {
+					redirect('/account/login');
+				} else {
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function (result, status) {
+				httpErrors($location.url(), status);
+			});
         }
     }
 ]);

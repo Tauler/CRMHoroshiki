@@ -44,6 +44,28 @@
 			</div>
 		</div>
 	</nav>
+	<div class="profile-nav ng-hide" ng-show="currentUserLoaded==true">
+		<div class="container-fluid">
+			<div class="profile-links first">
+				<div class="profile-avatar">
+					<img src="/img/noavatar.png" />
+				</div>
+				<div class="profile-username">
+					<p>{{currentUser.name}}</p>
+					<p class="hint">Баллов: 0</p>
+				</div>
+			</div>
+			<div class="profile-links" ng-class="{ 'active' : pageId == 'profileViewPage' }">
+				<a href="/account/profile">Личные данные</a>
+			</div>
+			<div class="profile-links" ng-class="{ 'active' : pageId == 'historyViewPage' }">
+				<a href="#">История заказов</a>
+			</div>
+			<div class="profile-links">
+				<a href="#" ng-click="logoutButton()">Выйти</a>
+			</div>
+		</div>
+	</div>
     <div id="main-content-wrapper" class="content-wrapper">
         <div ng-view></div>
     </div>
