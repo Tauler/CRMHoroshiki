@@ -250,8 +250,15 @@ loginControllers.controller('ConfirmViewController', ['$scope', '$location',
 	}
 ]);
 
-loginControllers.controller('ProfileViewController', ['$scope', '$location', 'AccountService',
-    function ($scope, $location, AccountService) {
+loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$location',
+    function ($scope, $rootScope, $location) {
+
+		$scope.currentUser = {};
 		
-    }
+		$rootScope.$watch('currentUserLoaded', function(){
+				if($rootScope.currentUserLoaded == true){
+					$scope.currentUser = $rootScope.currentUser;
+				}
+			});
+		}
 ]);
