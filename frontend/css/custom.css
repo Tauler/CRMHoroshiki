@@ -59,6 +59,10 @@ input, textarea{
 	box-shadow: none !important;
 }
 
+input.transparent:disabled{
+	background-color: transparent;
+}
+
 input[type=radio],
 input[type=checkbox]{
 	visibility: hidden;
@@ -878,4 +882,53 @@ textarea[name=regcomment]{
 .profile-devider{
 	height: 1px;
 	border-bottom: 1px dotted #d59a4b;
+}
+
+.profile-birthday-btn-c.first{
+	padding-left: 15px;
+	padding-right: 5px;
+}
+
+.profile-birthday-btn-c.center{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.profile-birthday-btn-c.last{
+	padding-left: 5px;
+	padding-right: 15px;
+}
+
+.profile-birthday-btn{
+	width: 100%;
+}
+
+.profile-birthday-btn button, .profile-sex button{
+	width: 100%;
+	text-align: left;
+}
+
+.profile-sex{
+	width: 124px;
+}
+
+@media (max-width: 991px) {
+	.profile-sex{
+		width: 100%;
+	}
+	
+	.profile-password-wide{
+		display: none;
+	}
+	
+	.profile-address-h, .profile-phone-h{
+		font-size: 19px;
+		padding-bottom: 20px;
+	}
+}
+
+@media (min-width: 992px) {
+	.profile-password-phone{
+		display: none;
+	}
 }

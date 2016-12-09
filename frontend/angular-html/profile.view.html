@@ -28,7 +28,7 @@
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
-								<input type="text" class="form-control" name="login" id="login" ng-model="currentUser.login" disabled />
+								<input type="text" class="form-control transparent" name="login" id="login" ng-model="currentUser.login" disabled />
 							</div>
 						</div>
 					</div>
@@ -52,7 +52,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row margin-top-5">
+					<div class="row margin-top-5 profile-password-wide">
 						<div class="col-md-4">
 							Пароль
 						</div>
@@ -62,6 +62,138 @@
 							</div>
 						</div>
 					</div>
+					<div class="row margin-top-15">
+						<div class="col-md-4">
+							Дата рождения
+						</div>
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-xs-4 col-md-4 profile-birthday-btn-c first">
+									<div class="btn-group profile-birthday-btn">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="float-left">День</span><i class="fa fa-angle-down float-right"></i>
+										</button>
+										<ul class="dropdown-menu">
+											<li>1</li>
+											<li>2</li>
+											<li>3</li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-xs-4 col-md-4 profile-birthday-btn-c center">
+									<div class="btn-group profile-birthday-btn">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="float-left">Месяц</span><i class="fa fa-angle-down float-right"></i>
+										</button>
+										<ul class="dropdown-menu">
+											<li>январь</li>
+											<li>февраль</li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-xs-4 col-md-4 profile-birthday-btn-c last">
+									<div class="btn-group profile-birthday-btn">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="float-left">Год</span><i class="fa fa-angle-down float-right"></i>
+										</button>
+										<ul class="dropdown-menu">
+											<li>1933</li>
+											<li>1956</li>
+											<li>1952</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-top-20">
+						<div class="col-md-4">
+							Пол
+						</div>
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="btn-group profile-sex">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="float-left">Пол</span><i class="fa fa-angle-down float-right"></i>
+										</button>
+										<ul class="dropdown-menu">
+											<li>Мужской</li>
+											<li>Женский</li>
+											<li>Не помню</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="profile-devider margin-top-35"></div>
+				</div>
+				<div class="col-md-4 profile-content-spacer"></div>
+			</div>
+		</div>
+		<div class="row profile-password-phone">
+            <div class="col-md-12 margin-top-30">
+				<div class="col-md-4 profile-content-spacer"></div>
+				<div class="col-md-4 text-align-left profile-content">
+					<div class="row">
+						<div class="col-md-4">
+							Пароль
+						</div>
+						<div class="col-md-8">
+							<button type="button" class="btn btn-horoshiki transparent" ng-click="">
+								Изменить пароль
+							</button>
+						</div>
+					</div>
+					<div class="profile-devider margin-top-35"></div>
+				</div>
+				<div class="col-md-4 profile-content-spacer"></div>
+			</div>
+		</div>
+		<div class="row">
+            <div class="col-md-12 margin-top-40">
+				<div class="col-md-4 profile-content-spacer"></div>
+				<div class="col-md-4 text-align-left profile-content">
+					<div class="row">
+						<div class="col-md-4 profile-phone-h">
+							Контактный телефон
+						</div>
+						<div class="col-md-8">
+							<p ng-repeat="phone in currentUser.phones">{{phone.phone}} <span class="hint" ng-if="phone.phone==currentUser.login">(используется для входа)</span></p>
+							<div class="form-group">
+								<a href="#">Изменить</a>
+							</div>
+							<div class="иет-group">
+								<button type="button" class="btn btn-horoshiki transparent" ng-click="">
+									Добавить телефон
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-top-35">
+						<div class="col-md-4 profile-address-h">
+							Адрес доставки
+						</div>
+						<div class="col-md-8">
+							<p ng-repeat="address in currentUser.addresses">{{address.address}}
+								<span ng-if="address.intercom.length>0">, домофон {{address.intercom}}</span></p>
+								<span ng-if="address.storey.length>0">, этаж {{address.storey}}</span></p>
+								<span ng-if="address.access.length>0">, подъезд {{address.access}}</span></p>
+								<span ng-if="address.apartment.length>0">, кв. {{address.apartment}}</span></p>
+								<span class="hint" ng-if="address.comment.length>0">({{address.comment}})</span>
+							</p>
+							<div class="form-group">
+								<a href="#">Изменить</a>
+							</div>
+							<div class="иет-group">
+								<button type="button" class="btn btn-horoshiki transparent" ng-click="">
+									Добавить адрес
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="profile-devider margin-top-35"></div>
 				</div>
 				<div class="col-md-4 profile-content-spacer"></div>
 			</div>
