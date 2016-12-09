@@ -70,7 +70,7 @@
 							<div class="row">
 								<div class="col-xs-4 col-md-4 profile-birthday-btn-c first">
 									<div class="btn-group profile-birthday-btn">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button type="button" class="btn btn-horoshiki-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="float-left">День</span><i class="fa fa-angle-down float-right"></i>
 										</button>
 										<ul class="dropdown-menu">
@@ -82,7 +82,7 @@
 								</div>
 								<div class="col-xs-4 col-md-4 profile-birthday-btn-c center">
 									<div class="btn-group profile-birthday-btn">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button type="button" class="btn btn-horoshiki-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="float-left">Месяц</span><i class="fa fa-angle-down float-right"></i>
 										</button>
 										<ul class="dropdown-menu">
@@ -93,7 +93,7 @@
 								</div>
 								<div class="col-xs-4 col-md-4 profile-birthday-btn-c last">
 									<div class="btn-group profile-birthday-btn">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button type="button" class="btn btn-horoshiki-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="float-left">Год</span><i class="fa fa-angle-down float-right"></i>
 										</button>
 										<ul class="dropdown-menu">
@@ -114,7 +114,7 @@
 							<div class="row">
 								<div class="col-xs-12">
 									<div class="btn-group profile-sex">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button type="button" class="btn btn-horoshiki-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="float-left">Пол</span><i class="fa fa-angle-down float-right"></i>
 										</button>
 										<ul class="dropdown-menu">
@@ -156,7 +156,7 @@
 				<div class="col-md-4 profile-content-spacer"></div>
 				<div class="col-md-4 text-align-left profile-content">
 					<div class="row">
-						<div class="col-md-4 profile-phone-h">
+						<div class="col-md-4 profile-xs-h">
 							Контактный телефон
 						</div>
 						<div class="col-md-8">
@@ -164,7 +164,7 @@
 							<div class="form-group">
 								<a href="#">Изменить</a>
 							</div>
-							<div class="иет-group">
+							<div class="btn-group">
 								<button type="button" class="btn btn-horoshiki transparent" ng-click="">
 									Добавить телефон
 								</button>
@@ -172,7 +172,7 @@
 						</div>
 					</div>
 					<div class="row margin-top-35">
-						<div class="col-md-4 profile-address-h">
+						<div class="col-md-4 profile-xs-h">
 							Адрес доставки
 						</div>
 						<div class="col-md-8">
@@ -186,7 +186,7 @@
 							<div class="form-group">
 								<a href="#">Изменить</a>
 							</div>
-							<div class="иет-group">
+							<div class="btn-group">
 								<button type="button" class="btn btn-horoshiki transparent" ng-click="">
 									Добавить адрес
 								</button>
@@ -194,6 +194,59 @@
 						</div>
 					</div>
 					<div class="profile-devider margin-top-35"></div>
+				</div>
+				<div class="col-md-4 profile-content-spacer"></div>
+			</div>
+		</div>
+		<div class="row">
+            <div class="col-md-12 margin-top-30">
+				<div class="col-md-4 profile-content-spacer"></div>
+				<div class="col-md-4 text-align-left profile-content">
+					<div class="row">
+						<div class="col-md-4 profile-xs-h">
+							Подтверждение заказа
+						</div>
+						<div class="col-md-8 profile-radio">
+							<div class="form-group">
+								<input type="radio" name="confirm" id="confirm-1" value="" />
+								<label for="confirm-1">Звонок оператора</label>
+							</div>
+							<div class="form-group">
+								<input type="radio" name="confirm" id="confirm-2" value="" checked />
+								<label for="confirm-2">По SMS без звонка</label>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-top-20">
+						<div class="col-md-4 profile-xs-h">
+							SMS с статусом заказа
+						</div>
+						<div class="col-md-8 profile-radio">
+							<div class="form-group">
+								<input type="radio" name="smsstat" id="smsstat-1" value="" checked />
+								<label for="smsstat-1">Информировать</label>
+							</div>
+							<div class="form-group">
+								<input type="radio" name="smsstat" id="smsstat-2" value="" />
+								<label for="smsstat-2">Не информировать</label>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-top-20">
+						<div class="col-md-4 profile-xs-h">
+							Подписка на полезные новости
+						</div>
+						<div class="col-md-8 profile-radio">
+							<div class="form-group">
+								<input type="radio" name="subscription" id="subscription-1" value="" checked />
+								<label for="subscription-1">Да</label>
+							</div>
+							<div class="form-group">
+								<input type="radio" name="subscription" id="subscription-2" value="" />
+								<label for="subscription-2">Нет</label>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="col-md-4 profile-content-spacer"></div>
 			</div>

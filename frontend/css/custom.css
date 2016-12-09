@@ -95,6 +95,20 @@ input[type=checkbox] + label:before{
 	border-radius: 2px;
 }
 
+ul.dropdown-menu{
+	max-height: 260px;
+	border: 1px solid #d59a4b;
+	overflow-y: scroll;
+}
+
+ul.dropdown-menu li{
+	padding: 10px 15px;
+}
+
+ul.dropdown-menu li:hover{
+	background-color: #f3f3f3;
+}
+
 .form-control::-moz-placeholder {
 	font-size: 13px;
 }
@@ -611,6 +625,28 @@ fieldset[disabled] .btn-horoshiki.focus {
   border-color: #d59a4b;
 }
 
+.btn-horoshiki {
+  color: #000000;
+  background-color: #d6a461;
+  border-color: #d6a461;
+  padding: 10px 20px;
+  min-width: 100px;
+  height: 40px;
+}
+
+.btn-horoshiki-dropdown{
+	border: 1px solid #CCCCCC;
+	background-color: #FFFFFF;
+}
+
+.btn-horoshiki-dropdown:hover, .btn-horoshiki-dropdown:focus{
+	border: 1px solid #d6a461;
+}
+
+.btn-horoshiki-dropdown:hover i, .btn-horoshiki-dropdown:focus i{
+	color: #d6a461;
+}
+
 ul.login-ul li { 
     color: #d6a461;
 }
@@ -906,6 +942,16 @@ textarea[name=regcomment]{
 .profile-birthday-btn button, .profile-sex button{
 	width: 100%;
 	text-align: left;
+	padding: 6px 10px;
+}
+
+.profile-birthday-btn i, .profile-sex i{
+	padding-top: 4px;
+	margin-right: -4px;
+}
+
+.profile-birthday-btn ul.dropdown-menu, .profile-sex ul.dropdown-menu{
+	min-width: 124px;
 }
 
 .profile-sex{
@@ -921,7 +967,7 @@ textarea[name=regcomment]{
 		display: none;
 	}
 	
-	.profile-address-h, .profile-phone-h{
+	.profile-xs-h{
 		font-size: 19px;
 		padding-bottom: 20px;
 	}
@@ -931,4 +977,8 @@ textarea[name=regcomment]{
 	.profile-password-phone{
 		display: none;
 	}
+}
+
+.profile-radio label{
+	font-weight: normal;
 }
