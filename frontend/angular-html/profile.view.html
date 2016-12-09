@@ -5,8 +5,8 @@
 				<div class="col-md-4 profile-content-spacer"></div>
 				<div class="col-md-4 text-align-center profile-content">
 					<div class="profile-avatar">
-						<img ng-show="urlAvatar.length==0" src="/img/noavatar.png" />
-						<img ng-show="urlAvatar.length>0" src="/{{urlAvatar}}" />
+						<img ng-show="currentUser.avatar.length==0" src="/img/noavatar.png" />
+						<img ng-show="currentUser.avatar.length>0" src="/{{currentUser.avatar}}" />
 					</div>
 					<div class="form-group margin-top-25">
 						<button type="button" class="btn btn-horoshiki transparent" onclick="$('#avatar').click();">
@@ -162,11 +162,13 @@
 							Контактный телефон
 						</div>
 						<div class="col-md-8">
-							<p ng-repeat="phone in currentUser.phones">{{phone.phone}} <span class="hint" ng-if="phone.phone==currentUser.login">(используется для входа)</span></p>
+							<p ng-repeat="phone in currentUser.phones">{{phone.phone}} 
+								<span class="hint" ng-if="phone.phone==currentUser.login">(используется для входа)</span>
+							</p>
 							<div class="form-group">
 								<a href="#">Изменить</a>
 							</div>
-							<div class="btn-group">
+							<div class="form-group">
 								<button type="button" class="btn btn-horoshiki transparent" ng-click="">
 									Добавить телефон
 								</button>
@@ -178,24 +180,26 @@
 							Адрес доставки
 						</div>
 						<div class="col-md-8">
-							<p ng-repeat="address in currentUser.addresses">{{address.address}}
-								<span ng-if="address.intercom.length>0">, домофон {{address.intercom}}</span></p>
-								<span ng-if="address.storey.length>0">, этаж {{address.storey}}</span></p>
-								<span ng-if="address.access.length>0">, подъезд {{address.access}}</span></p>
-								<span ng-if="address.apartment.length>0">, кв. {{address.apartment}}</span></p>
-								<span class="hint" ng-if="address.comment.length>0">({{address.comment}})</span>
-							</p>
-							<div class="form-group">
-								<a href="#">Изменить</a>
+							<div class="margin-bottom-30" ng-repeat="address in currentUser.addresses">
+								<p>{{address.address}}
+									<span ng-if="address.intercom.length>0">, домофон {{address.intercom}}</span></p>
+									<span ng-if="address.storey.length>0">, этаж {{address.storey}}</span></p>
+									<span ng-if="address.access.length>0">, подъезд {{address.access}}</span></p>
+									<span ng-if="address.apartment.length>0">, кв. {{address.apartment}}</span></p>
+									<span class="hint" ng-if="address.comment.length>0">({{address.comment}})</span>
+								</p>
+								<div class="form-group">
+									<a href="#" data-toggle="modal" data-target="#addAddressModal" ng-click="addAddressModal(address)">Изменить</a>
+								</div>
 							</div>
-							<div class="btn-group">
-								<button type="button" class="btn btn-horoshiki transparent" ng-click="">
+							<div class="form-group">
+								<button type="button" class="btn btn-horoshiki transparent" data-toggle="modal" data-target="#addAddressModal" ng-click="addAddressModal(null)">
 									Добавить адрес
 								</button>
 							</div>
 						</div>
 					</div>
-					<div class="profile-devider margin-top-35"></div>
+					<div class="profile-devider margin-top-25"></div>
 				</div>
 				<div class="col-md-4 profile-content-spacer"></div>
 			</div>
@@ -251,6 +255,69 @@
 					</div>
 				</div>
 				<div class="col-md-4 profile-content-spacer"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal add address -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<h3 class="modal-title" id="addAddressModalLabel" ng-if="newAddress.isNew == true">Добавить адрес</h3>
+				<h3 class="modal-title" id="addAddressModalLabel" ng-if="newAddress.isNew == false">Изменить адрес</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<span>Улица</span>
+						<div class="form-group">
+							<input type="text" class="form-control" name="address" id="address" ng-model="newAddress.address" ng-change="validateAddress()" />
+							<code class="ng-hide" ng-show="newAddress.error.address==true">Введите адрес доставки</code>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-md-6">
+						<span>Домофон</span>
+						<div class="form-group">
+							<input type="text" class="form-control" name="intercom" id="intercom" ng-model="newAddress.intercom" />
+						</div>
+					</div>
+					<div class="col-xs-6 col-md-6">
+						<span>Этаж</span>
+						<div class="form-group">
+							<input type="text" class="form-control" name="storey" id="storey" ng-model="newAddress.storey" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-md-6">
+						<span>Подъезд</span>
+						<div class="form-group">
+							<input type="text" class="form-control" name="access" id="access" ng-model="newAddress.access" />
+						</div>
+					</div>
+					<div class="col-xs-6 col-md-6">
+						<span>Квартира/офис</span>
+						<div class="form-group">
+							<input type="text" class="form-control" name="apartment" id="apartment" ng-model="newAddress.apartment" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<a href="#" ng-click="addAddressModalShowComment()">Добавить комментарий к адресу</a>
+						<textarea ng-show="newAddress.showComment==true" type="text" class="form-control margin-top-10" name="comment" id="comment" ng-model="newAddress.comment" ></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-horoshiki transparent float-left" data-dismiss="modal" ng-disabled="newAddress.error.address || newAddress.address.length == 0" ng-click="addAddressModalSubmit()">
+					Сохранить
+				</button>
 			</div>
 		</div>
 	</div>
