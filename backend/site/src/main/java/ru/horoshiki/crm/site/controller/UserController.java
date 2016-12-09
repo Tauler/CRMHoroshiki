@@ -171,9 +171,9 @@ public class UserController {
     BackendData editAddress(@RequestParam(value = "id", required = false) Long addressId,
                              @RequestParam(value = "address", required = true) String address,
                              @RequestParam(value = "intercom", required = false) String intercom,
-                             @RequestParam(value = "storey", required = false) Integer storey,
-                             @RequestParam(value = "access", required = false) Integer access,
-                             @RequestParam(value = "apartment", required = false) Integer apartment,
+                             @RequestParam(value = "storey", required = false) String storey,
+                             @RequestParam(value = "access", required = false) String access,
+                             @RequestParam(value = "apartment", required = false) String apartment,
                              @RequestParam(value = "comment", required = false) String comment) {
         User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
         Address addressDef = null;
@@ -182,8 +182,8 @@ public class UserController {
             addressDef = addressService.get(addressId);
             if(addressDef==null)
                 return BackendData.error("addressNotFoundError");
-            if(!user.getAddresses().contains(addressDef))
-                return BackendData.error("userNotAccessError");
+//            if(!user.getAddresses().contains(addressDef))
+//                return BackendData.error("userNotAccessError");
         }else{
             addressDef = new Address();
         }
@@ -191,12 +191,12 @@ public class UserController {
         addressDef.setUser(user);
         if(intercom!=null)
             addressDef.setIntercom(HtmlUtils.htmlEscape(intercom));
-        if(storey!=null)
-            addressDef.setStorey(storey);
-        if(access!=null)
-            addressDef.setAccess(access);
-        if(apartment!=null)
-            addressDef.setApartment(apartment);
+        if(storey!=null && !"".equals(storey))
+            addressDef.setStorey(Integer.valueOf(storey));
+        if(access!=null && !"".equals(access))
+            addressDef.setAccess(Integer.valueOf(access));
+        if(apartment!=null && !"".equals(apartment))
+            addressDef.setApartment(Integer.valueOf(apartment));
         if(comment!=null)
             addressDef.setComment(comment);
         addressService.update(addressDef);

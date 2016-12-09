@@ -45,8 +45,6 @@ accountServices.service('AccountService', ['$http', function($http) {
         });
     }
 	
-	this.getCurrentUser = function() {return $http.get(backendServerAddr+'/user/getCurrentUser'); }
-	
 	this.isLoginExists = function(login, isBlank) {
         return $http({
             method: 'POST',
@@ -55,4 +53,25 @@ accountServices.service('AccountService', ['$http', function($http) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
         });
     }
+	
+	this.getCurrentUser = function() {return $http.get(backendServerAddr+'/user/getCurrentUser'); }
+	
+	this.editAddress = function(id, address, intercom, storey, access, apartment, comment) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAddress',
+            data: 'id='+id+'&address='+address+'&intercom='+intercom+'&storey='+storey+'&access='+access+'&apartment='+apartment+'&comment='+comment,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.deleteAddress = function(id) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/deleteAddress',
+            data: 'id='+id,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
 }]);

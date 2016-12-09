@@ -647,6 +647,14 @@ fieldset[disabled] .btn-horoshiki.focus {
 	color: #d6a461;
 }
 
+.modal-content{
+	border-radius: 0px;
+}
+
+.modal-header, .modal-footer{
+	border: none;
+}
+
 ul.login-ul li { 
     color: #d6a461;
 }
