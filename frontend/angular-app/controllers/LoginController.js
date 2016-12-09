@@ -250,15 +250,87 @@ loginControllers.controller('ConfirmViewController', ['$scope', '$location',
 	}
 ]);
 
-loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$location',
-    function ($scope, $rootScope, $location) {
+loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$location', 'AccountService',
+    function ($scope, $rootScope, $location, AccountService) {
 
 		$scope.currentUser = {};
 		
 		$rootScope.$watch('currentUserLoaded', function(){
-				if($rootScope.currentUserLoaded == true){
-					$scope.currentUser = $rootScope.currentUser;
+			if($rootScope.currentUserLoaded == true){
+				$scope.currentUser = $rootScope.currentUser;
+			}
+		});
+		
+		$scope.reloadCurrentUser = function(){
+			AccountService.getCurrentUser().success(function (result) {
+				if (result.success == true) {
+					$scope.currentUser = result.data;
+				} else {
+					displayErrorMessage($scope.translation[result.reason]);
 				}
+			}).error(function (result, status) {
+				httpErrors($location.url(), status);
 			});
 		}
+		
+		// Модальник добавления и изменения адреса
+		$scope.addAddressModal = function(address){
+			if(address != null){
+				$scope.newAddress = address;
+				
+				$scope.newAddress.isNew = false;
+				$scope.newAddress.showComment = false;
+				
+				if($scope.newAddress.comment.length > 0){
+					$scope.newAddress.showComment = true;
+				}
+			}else{
+				$scope.newAddress = {};
+				
+				$scope.newAddress.id = 0;
+				$scope.newAddress.address = "";
+				$scope.newAddress.intercom = "";
+				$scope.newAddress.storey = "";
+				$scope.newAddress.access = "";
+				$scope.newAddress.apartment = "";
+				$scope.newAddress.comment = "";
+				
+				$scope.newAddress.isNew = true;
+				$scope.newAddress.showComment = false;
+			}
+			
+			$scope.newAddress.error = {};
+			$scope.newAddress.error.address = false;
+		}
+		
+		$scope.addAddressModalShowComment = function(){
+			if($scope.newAddress.showComment){
+				$scope.newAddress.showComment = false;
+			}else{
+				$scope.newAddress.showComment = true;
+			}
+		}
+		
+		$scope.validateAddress = function(){
+			$scope.newAddress.error.address = false;
+			if($scope.newAddress.address == null || $scope.newAddress.address == undefined || $scope.newAddress.address.length == 0){
+				$scope.newAddress.error.address = true;
+			}
+		}
+		
+		$scope.addAddressModalSubmit = function(){
+
+			if(!$scope.newAddress.error.address){
+				AccountService.editAddress($scope.newAddress.id, $scope.newAddress.address, $scope.newAddress.intercom, $scope.newAddress.storey, $scope.newAddress.access, $scope.newAddress.apartment, $scope.newAddress.comment).success(function(result){
+					if(result.success == true){
+						$scope.reloadCurrentUser();
+					}else{
+						displayErrorMessage($scope.translation[result.reason]);
+					}
+				}).error(function(result, status){
+					httpErrors($location.url(), status);
+				});
+			}
+		}
+	}
 ]);
