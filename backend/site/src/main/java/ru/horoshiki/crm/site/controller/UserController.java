@@ -1,21 +1,31 @@
 package ru.horoshiki.crm.site.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 import ru.horoshiki.crm.sendsms.SmsSender;
 import ru.horoshiki.crm.site.model.dto.BackendData;
 import ru.horoshiki.crm.site.model.dto.UserSmallDTO;
+import ru.horoshiki.crm.site.model.entity.Address;
 import ru.horoshiki.crm.site.model.entity.Phone;
 import ru.horoshiki.crm.site.model.entity.User;
+import ru.horoshiki.crm.site.model.enums.OrderConfirmType;
+import ru.horoshiki.crm.site.model.enums.Sex;
+import ru.horoshiki.crm.site.service.AddressService;
 import ru.horoshiki.crm.site.service.PhoneService;
 import ru.horoshiki.crm.site.service.UserService;
 import ru.horoshiki.crm.site.utils.SmsUtils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +45,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private PhoneService phoneService;
+    @Autowired
+    private AddressService addressService;
 
     @RequestMapping(value = "/getCurrentUser", method = RequestMethod.GET)
     public
@@ -114,10 +126,10 @@ public class UserController {
         return BackendData.success(true);
     }
 
-    @RequestMapping(value = "/delPhone", method = RequestMethod.POST)
+    @RequestMapping(value = "/deletePhone", method = RequestMethod.POST)
     public
     @ResponseBody
-    BackendData delPhone(@RequestParam(value = "phoneId", required = true) long phoneId){
+    BackendData deletePhone(@RequestParam(value = "phoneId", required = true) long phoneId){
         User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "phones");
         if(user==null)
             return BackendData.error("userNotFoundError");
@@ -129,4 +141,106 @@ public class UserController {
         phoneService.delete(phone);
         return BackendData.success(true);
     }
+
+    @RequestMapping(value = "/editPassword", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    BackendData editPassword(@RequestParam(value = "password", required = true) String password,
+                             @RequestParam(value = "newPassword", required = true) String newPassword){
+        User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if(user==null)
+            return BackendData.error("userNotFoundError");
+
+        BCryptPasswordEncoder bcript = new BCryptPasswordEncoder(5);
+        if(!bcript.matches(password, user.getPassword()))
+            return BackendData.error("incorrectPasswordError");
+
+        if (!userService.checkPassword(newPassword) || StringUtils.isEmpty(newPassword))
+            return BackendData.error("invalidNewPasswordError");
+
+        user.setPassword(bcript.encode(newPassword));
+        userService.update(user);
+
+        return BackendData.success(true);
+    }
+
+    @RequestMapping(value = "/editAddress", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    BackendData editAddress(@RequestParam(value = "id", required = false) Long addressId,
+                             @RequestParam(value = "address", required = true) String address,
+                             @RequestParam(value = "intercom", required = false) String intercom,
+                             @RequestParam(value = "storey", required = false) Integer storey,
+                             @RequestParam(value = "access", required = false) Integer access,
+                             @RequestParam(value = "apartment", required = false) Integer apartment,
+                             @RequestParam(value = "comment", required = false) String comment) {
+        User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
+        Address addressDef = null;
+
+        if(addressId!=null && addressId!=0){
+            addressDef = addressService.get(addressId);
+            if(addressDef==null)
+                return BackendData.error("addressNotFoundError");
+            if(!user.getAddresses().contains(addressDef))
+                return BackendData.error("userNotAccessError");
+        }else{
+            addressDef = new Address();
+        }
+        addressDef.setAddress(HtmlUtils.htmlEscape(address));
+        addressDef.setUser(user);
+        if(intercom!=null)
+            addressDef.setIntercom(HtmlUtils.htmlEscape(intercom));
+        if(storey!=null)
+            addressDef.setStorey(storey);
+        if(access!=null)
+            addressDef.setAccess(access);
+        if(apartment!=null)
+            addressDef.setApartment(apartment);
+        if(comment!=null)
+            addressDef.setComment(comment);
+        addressService.update(addressDef);
+        return BackendData.success(true);
+    }
+
+    @RequestMapping(value = "/deleteAddress", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    BackendData deleteAddress(@RequestParam(value = "id", required = true) long addressId) {
+        User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
+        Address addressDef = null;
+        addressDef = addressService.get(addressId);
+        if (addressDef == null)
+            return BackendData.error("addressNotFoundError");
+        if (!user.getAddresses().contains(addressDef))
+            return BackendData.error("userNotAccessError");
+        addressService.delete(addressDef);
+        return BackendData.success(true);
+    }
+
+    @RequestMapping(value = "/editAccount", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    BackendData editSex(@RequestParam(value = "sex", required = false) String sexStr,
+                        @RequestParam(value = "birthday", required = false) String birthdayStr,
+                        @RequestParam(value = "orderConfirm", required = false) Boolean orderConfirm,
+                        @RequestParam(value = "orderConfirmType", required = false) String orderConfirmType){
+        User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
+        if(user==null)
+            return BackendData.error("userNotFoundError");
+
+        if(sexStr!=null && !"".equals(sexStr))
+            user.setSex(Sex.valueOf(sexStr));
+        if(orderConfirm!=null)
+            user.setOrderConfirm(orderConfirm);
+        if(orderConfirmType!=null && !"".equals(orderConfirmType))
+            user.setOrderConfirmType(OrderConfirmType.valueOf(orderConfirmType));
+        if(birthdayStr!=null && "".equals(birthdayStr)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDateTime birthday = LocalDateTime.parse(birthdayStr + " 00:00:00", formatter);
+            user.setBirthday(Date.from(birthday.atZone(ZoneId.systemDefault()).toInstant()));
+        }
+        return null;
+    }
+
 }
