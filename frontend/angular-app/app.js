@@ -12,6 +12,8 @@ var horoshikiLkApp = angular.module('horoshikiLkApp', [
     'backendServices',
     'accountServices',
     'translationServices',
+
+    'ngSimpleUpload',
 	
 	'ui.mask'
 ]);

@@ -27,6 +27,8 @@
         <intercept-url pattern="/registration/**" access="permitAll"/>
         <intercept-url pattern="/resendConfirmSms" access="permitAll"/>
         <intercept-url pattern="/isLogin" access="permitAll"/>
+        <intercept-url pattern="/upload/**" access="permitAll"/>
+
 
         <intercept-url pattern="/me" access="permitAll"/>
 
@@ -34,7 +36,7 @@
 
         <form-login login-processing-url="/login_old" login-page="/login" always-use-default-target="false" authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
         <logout logout-url="/logout_old"/>
-        <csrf/>
+        <csrf disabled="true"/>
 
         <remember-me token-validity-seconds="1209600" remember-me-parameter="remember-me" use-secure-cookie="true" data-source-ref="dataSource" />
 

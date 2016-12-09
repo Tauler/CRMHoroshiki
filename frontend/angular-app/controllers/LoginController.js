@@ -254,7 +254,14 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
     function ($scope, $rootScope, $location) {
 
 		$scope.currentUser = {};
-		
+		$scope.urlAvatar = "";
+
+		$scope.myCallback = function (valueFromDirective) {
+			$scope.$apply(function () {
+				$scope.urlAvatar = valueFromDirective.data;
+			});
+		};
+
 		$rootScope.$watch('currentUserLoaded', function(){
 				if($rootScope.currentUserLoaded == true){
 					$scope.currentUser = $rootScope.currentUser;

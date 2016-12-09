@@ -5,12 +5,14 @@
 				<div class="col-md-4 profile-content-spacer"></div>
 				<div class="col-md-4 text-align-center profile-content">
 					<div class="profile-avatar">
-						<img src="/img/noavatar.png" />
+						<img ng-show="urlAvatar.length==0" src="/img/noavatar.png" />
+						<img ng-show="urlAvatar.length>0" src="/{{urlAvatar}}" />
 					</div>
 					<div class="form-group margin-top-25">
-						<button type="button" class="btn btn-horoshiki transparent" ng-click="">
+						<button type="button" class="btn btn-horoshiki transparent" onclick="$('#avatar').click();">
 							Выбрать фото
 						</button>
+						<input type="file" id="avatar" class="ng-hide" ng-simple-upload web-api-url="/backend/upload/file" callback-fn="myCallback" />
 						<p class="hint margin-top-10">максимальный размер изображения - 1 MB</p>
 					</div>
 					<div class="profile-devider margin-top-35"></div>
