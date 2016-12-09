@@ -42,7 +42,7 @@ public class User {
     private Integer sex;
 
     @Column(name="order_confirm")
-    private Boolean oderConfirm;
+    private Boolean orderConfirm;
 
     @Column(name = "order_confirm_type")
     private Integer orderConfirmType;
@@ -267,11 +267,11 @@ public class User {
         this.birthday = birthday;
     }
 
-    public Boolean getOderConfirm() {
-        return oderConfirm;
+    public Boolean getOrderConfirm() {
+        return orderConfirm;
     }
 
-    public void setOderConfirm(Boolean oderConfirm) {
-        this.oderConfirm = oderConfirm;
+    public void setOrderConfirm(Boolean orderConfirm) {
+        this.orderConfirm = orderConfirm;
     }
 }

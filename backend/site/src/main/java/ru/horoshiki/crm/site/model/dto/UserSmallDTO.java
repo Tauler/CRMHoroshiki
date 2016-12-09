@@ -45,7 +45,7 @@ public class UserSmallDTO {
         userSmallDTO.setId(user.getId());
         userSmallDTO.setMail(user.getMail());
         userSmallDTO.setName(user.getName());
-        userSmallDTO.setOderConfirm(user.getOderConfirm());
+        userSmallDTO.setOderConfirm(user.getOrderConfirm());
         userSmallDTO.setOrderConfirmType(user.getOrderConfirmType());
         userSmallDTO.setPaymentMethodDef(user.getPaymentMethodDef());
         userSmallDTO.setPhones(PhoneSmallDTO.valueOf(user.getPhones()));

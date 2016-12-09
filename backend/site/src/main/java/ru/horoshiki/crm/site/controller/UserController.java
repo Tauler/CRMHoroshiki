@@ -14,12 +14,18 @@ import ru.horoshiki.crm.site.model.dto.UserSmallDTO;
 import ru.horoshiki.crm.site.model.entity.Address;
 import ru.horoshiki.crm.site.model.entity.Phone;
 import ru.horoshiki.crm.site.model.entity.User;
+import ru.horoshiki.crm.site.model.enums.OrderConfirmType;
+import ru.horoshiki.crm.site.model.enums.Sex;
 import ru.horoshiki.crm.site.service.AddressService;
 import ru.horoshiki.crm.site.service.PhoneService;
 import ru.horoshiki.crm.site.service.UserService;
 import ru.horoshiki.crm.site.utils.SmsUtils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -159,10 +165,10 @@ public class UserController {
         return BackendData.success(true);
     }
 
-    @RequestMapping(value = "/editPassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/editAddress", method = RequestMethod.POST)
     public
     @ResponseBody
-    BackendData editPassword(@RequestParam(value = "id", required = false) Long addressId,
+    BackendData editAddress(@RequestParam(value = "id", required = false) Long addressId,
                              @RequestParam(value = "address", required = true) String address,
                              @RequestParam(value = "intercom", required = false) String intercom,
                              @RequestParam(value = "storey", required = false) Integer storey,
@@ -181,7 +187,6 @@ public class UserController {
         }else{
             addressDef = new Address();
         }
-//        Address addressDef = new Address();
         addressDef.setAddress(HtmlUtils.htmlEscape(address));
         addressDef.setUser(user);
         if(intercom!=null)
@@ -198,10 +203,10 @@ public class UserController {
         return BackendData.success(true);
     }
 
-    @RequestMapping(value = "/editPassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteAddress", method = RequestMethod.POST)
     public
     @ResponseBody
-    BackendData editPassword(@RequestParam(value = "id", required = true) long addressId) {
+    BackendData deleteAddress(@RequestParam(value = "id", required = true) long addressId) {
         User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
         Address addressDef = null;
         addressDef = addressService.get(addressId);
@@ -211,6 +216,31 @@ public class UserController {
             return BackendData.error("userNotAccessError");
         addressService.delete(addressDef);
         return BackendData.success(true);
+    }
+
+    @RequestMapping(value = "/editAccount", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    BackendData editSex(@RequestParam(value = "sex", required = false) String sexStr,
+                        @RequestParam(value = "birthday", required = false) String birthdayStr,
+                        @RequestParam(value = "orderConfirm", required = false) Boolean orderConfirm,
+                        @RequestParam(value = "orderConfirmType", required = false) String orderConfirmType){
+        User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
+        if(user==null)
+            return BackendData.error("userNotFoundError");
+
+        if(sexStr!=null && !"".equals(sexStr))
+            user.setSex(Sex.valueOf(sexStr));
+        if(orderConfirm!=null)
+            user.setOrderConfirm(orderConfirm);
+        if(orderConfirmType!=null && !"".equals(orderConfirmType))
+            user.setOrderConfirmType(OrderConfirmType.valueOf(orderConfirmType));
+        if(birthdayStr!=null && "".equals(birthdayStr)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDateTime birthday = LocalDateTime.parse(birthdayStr + " 00:00:00", formatter);
+            user.setBirthday(Date.from(birthday.atZone(ZoneId.systemDefault()).toInstant()));
+        }
+        return null;
     }
 
 }
