@@ -96,6 +96,17 @@ public class User {
     @JoinColumn(name = "def_phone")
     private Phone defaultPhone;
 
+    @Column(name = "notifications", nullable = false)
+    private boolean notifications = false;
+
+    public boolean isNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(boolean notifications) {
+        this.notifications = notifications;
+    }
+
     public String getLogin() {
         return login;
     }
