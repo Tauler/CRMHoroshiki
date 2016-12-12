@@ -101,8 +101,8 @@ public class UserController {
         Phone phone = phoneService.get(phoneId);
         if(phone==null)
             return BackendData.error("phoneNotFoundError");
-        if(!user.getPhones().contains(phone))
-            return BackendData.error("userNotAccessError");
+//        if(!user.getPhones().contains(phone))
+//            return BackendData.error("userNotAccessError");
         String code = SmsUtils.generateCode();
         phone.setNewPhone(HtmlUtils.htmlEscape(newPhone));
         phone.setConfirmCode(code);
@@ -150,8 +150,8 @@ public class UserController {
         Phone phone = phoneService.get(phoneId);
         if(phone==null)
             return BackendData.error("phoneNotFoundError");
-        if(!user.getPhones().contains(phone))
-            return BackendData.error("userNotAccessError");
+//        if(!user.getPhones().contains(phone))
+//            return BackendData.error("userNotAccessError");
         phoneService.delete(phone);
         return BackendData.success(true);
     }
@@ -239,8 +239,8 @@ public class UserController {
         addressDef = addressService.get(addressId);
         if (addressDef == null)
             return BackendData.error("addressNotFoundError");
-        if (!user.getAddresses().contains(addressDef))
-            return BackendData.error("userNotAccessError");
+//        if (!user.getAddresses().contains(addressDef))
+//            return BackendData.error("userNotAccessError");
         addressService.delete(addressDef);
         return BackendData.success(true);
     }
