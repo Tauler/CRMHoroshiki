@@ -48,7 +48,8 @@
 		<div class="container-fluid">
 			<div class="profile-links first">
 				<div class="profile-nav-avatar">
-					<img src="/img/noavatar.png" />
+					<img ng-show="currentUser.avatar.length==0 || currentUser.avatar==null" src="/img/noavatar.png" />
+					<img ng-show="currentUser.avatar.length>0" src="/{{currentUser.avatar}}" />
 				</div>
 				<div class="profile-nav-username">
 					<p>{{currentUser.name}}</p>

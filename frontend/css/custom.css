@@ -431,7 +431,6 @@ ul.dropdown-menu li:hover{
 	margin-left: auto;
 	margin-right: auto;
 	min-height: 500px;
-    /*width: 93%;*/
 }
 
 .container-fluid{
@@ -458,12 +457,10 @@ ul.dropdown-menu li:hover{
 		width: 80%;
 	}
 	.login-about-lk{
-		 width: 970px;
-        /*border: 1px solid #0f0f0f;*/
-        float: none!important;
+		width: 970px;
+        float: none !important;
         margin: 0 auto;
 	}
-
     .elem-block{
         margin-top: 70px;
     }
@@ -989,4 +986,8 @@ textarea[name=regcomment]{
 
 .profile-radio label{
 	font-weight: normal;
+}
+
+a.black-link{
+	color: #333333;
 }

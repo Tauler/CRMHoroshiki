@@ -338,5 +338,61 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 				});
 			}
 		}
+		
+		$scope.deleteAddressModalSubmit = function(address){
+		
+			AccountService.deleteAddress(address.id).success(function(result){
+				if(result.success == true){
+					$scope.reloadCurrentUser();
+				}else{
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
+		}
+		
+		// Дата рождения
+		$scope.birthdayModel = {};
+		
+		$scope.birthdayModel.selectedYear = null;
+		$scope.birthdayModel.selectedMonth = null;
+		$scope.birthdayModel.selectedDay = null;
+		
+		$scope.birthdayModel.years = getYearsList();
+		$scope.birthdayModel.months = getMonthsList();
+
+		$scope.getDays = function(){
+			if($scope.birthdayModel.selectedYear == null || $scope.birthdayModel.selectedMonth == null){
+				$scope.birthdayModel.days = getDaysList(2016, 12);
+			}else{
+				$scope.birthdayModel.days = getDaysList($scope.birthdayModel.selectedYear, $scope.birthdayModel.selectedMonth.id + 1);
+			}
+		}
+		$scope.getDays();
+		
+		$scope.setAvailableDay = function(){
+			$scope.getDays();
+			
+			var lastDay = lastArrayItem($scope.birthdayModel.days);
+			
+			if($scope.birthdayModel.selectedDay != null && $scope.birthdayModel.selectedDay > lastDay){
+				$scope.birthdayModel.selectedDay = lastDay;
+			}
+		}
+		
+		$scope.birthdaySelectYear = function(year){
+			$scope.birthdayModel.selectedYear = year;
+			$scope.setAvailableDay();
+		}
+		
+		$scope.birthdaySelectMonth = function(month){
+			$scope.birthdayModel.selectedMonth = month;
+			$scope.setAvailableDay();
+		}
+		
+		$scope.birthdaySelectDay = function(day){
+			$scope.birthdayModel.selectedDay = day;
+		}
 	}
 ]);
