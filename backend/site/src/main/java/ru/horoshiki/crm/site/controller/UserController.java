@@ -185,7 +185,7 @@ public class UserController {
         addressDef.setAddress(HtmlUtils.htmlEscape(address));
         addressDef.setUser(user);
 
-        if(intercom!=null && !"null".equals(storey))
+        if(intercom!=null && !"null".equals(intercom))
             addressDef.setIntercom(HtmlUtils.htmlEscape(intercom));
         else
             addressDef.setIntercom(null);
