@@ -184,14 +184,27 @@ public class UserController {
         }
         addressDef.setAddress(HtmlUtils.htmlEscape(address));
         addressDef.setUser(user);
-        if(intercom!=null)
+
+        if(intercom!=null && !"null".equals(storey))
             addressDef.setIntercom(HtmlUtils.htmlEscape(intercom));
-        if(storey!=null && !"".equals(storey))
+        else
+            addressDef.setIntercom(null);
+
+        if(storey!=null && !"".equals(storey) && !"null".equals(storey))
             addressDef.setStorey(Integer.valueOf(storey));
-        if(access!=null && !"".equals(access))
+        else
+             addressDef.setStorey(null);
+
+        if(access!=null && !"".equals(access) && !"null".equals(access))
             addressDef.setAccess(Integer.valueOf(access));
-        if(apartment!=null && !"".equals(apartment))
+        else
+            addressDef.setAccess(null);
+
+        if(apartment!=null && !"".equals(apartment) && !"null".equals(apartment))
             addressDef.setApartment(Integer.valueOf(apartment));
+        else
+            addressDef.setApartment(null);
+
         if(comment!=null)
             addressDef.setComment(comment);
 
