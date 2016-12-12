@@ -24,10 +24,7 @@ import ru.horoshiki.crm.site.utils.SmsUtils;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by onyushkindv on 06.12.2016.
@@ -199,7 +196,20 @@ public class UserController {
             addressDef.setApartment(Integer.valueOf(apartment));
         if(comment!=null)
             addressDef.setComment(comment);
-        addressService.update(addressDef);
+
+        List<Address> addresses = null;
+        if(user.getAddresses()==null){
+            addresses = new ArrayList<>();
+        }else{
+            addresses = user.getAddresses();
+        }
+
+        addresses.add(addressDef);
+
+        user.setAddresses(addresses);
+        userService.update(user);
+
+//        addressService.update(addressDef);
         return BackendData.success(true);
     }
 
