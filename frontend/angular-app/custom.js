@@ -132,3 +132,21 @@ function getDaysList(year, month){
 	
 	return daysList;
 }
+
+function getSexArray(){
+	var sex =
+	[
+		{value:'MALE', name:'Мужской'},
+		{value:'FEMALE', name:'Женский'}
+	];
+	
+	return sex;
+}
+
+function numb2(numb){
+    if (numb <= 9){
+        return "0" + numb;
+    }else{
+        return numb;
+    }
+}

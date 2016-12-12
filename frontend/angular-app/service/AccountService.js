@@ -74,4 +74,13 @@ accountServices.service('AccountService', ['$http', function($http) {
         });
     }
 	
+	this.editAccount = function(sex, birthday, orderConfirm, orderConfirmType) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAccount',
+            data: 'sex='+sex+'&birthday='+birthday+'&orderConfirm='+orderConfirm+'&orderConfirmType='+orderConfirmType,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
 }]);

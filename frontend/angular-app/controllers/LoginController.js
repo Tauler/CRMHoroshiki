@@ -384,15 +384,53 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 		$scope.birthdaySelectYear = function(year){
 			$scope.birthdayModel.selectedYear = year;
 			$scope.setAvailableDay();
+			
+			$scope.saveUserAccount();
 		}
 		
 		$scope.birthdaySelectMonth = function(month){
 			$scope.birthdayModel.selectedMonth = month;
 			$scope.setAvailableDay();
+			
+			$scope.saveUserAccount();
 		}
 		
 		$scope.birthdaySelectDay = function(day){
 			$scope.birthdayModel.selectedDay = day;
+			
+			$scope.saveUserAccount();
+		}
+		
+		// Пол
+		$scope.availableSex = getSexArray();
+		$scope.selectedSex = null;
+		
+		$scope.selectSex = function(sex){
+			$scope.selectedSex = sex;
+			
+			$scope.saveUserAccount();
+		}
+		
+		// Сохранение аккаунта пользователя
+		$scope.saveUserAccount = function(){
+			
+			if($scope.birthdayModel.selectedDay != null && $scope.birthdayModel.selectedMonth != null && $scope.birthdayModel.selectedYear != null){
+				$scope.currentUser.birthday = numb2($scope.birthdayModel.selectedDay)+"."+numb2($scope.birthdayModel.selectedMonth.id + 1)+"."+$scope.birthdayModel.selectedYear;
+			}
+			
+			if($scope.selectedSex != null){
+				$scope.currentUser.sex = $scope.selectedSex.value;
+			}
+			
+			AccountService.editAccount($scope.currentUser.sex, $scope.currentUser.birthday, null, null).success(function(result){
+				if(result.success == true){
+					$scope.reloadCurrentUser();
+				}else{
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
 		}
 	}
 ]);

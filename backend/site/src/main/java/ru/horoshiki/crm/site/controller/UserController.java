@@ -234,19 +234,19 @@ public class UserController {
     @ResponseBody
     BackendData editSex(@RequestParam(value = "sex", required = false) String sexStr,
                         @RequestParam(value = "birthday", required = false) String birthdayStr,
-                        @RequestParam(value = "orderConfirm", required = false) Boolean orderConfirm,
+                        @RequestParam(value = "orderConfirm", required = false) String orderConfirm,
                         @RequestParam(value = "orderConfirmType", required = false) String orderConfirmType){
         User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
         if(user==null)
             return BackendData.error("userNotFoundError");
 
-        if(sexStr!=null && !"".equals(sexStr))
+        if(sexStr!=null && !"".equals(sexStr) && !"null".equals(sexStr))
             user.setSex(Sex.valueOf(sexStr));
-        if(orderConfirm!=null)
-            user.setOrderConfirm(orderConfirm);
-        if(orderConfirmType!=null && !"".equals(orderConfirmType))
+        if(orderConfirm!=null && !"".equals(orderConfirm) && !"null".equals(orderConfirm))
+            user.setOrderConfirm(Boolean.valueOf(orderConfirm));
+        if(orderConfirmType!=null && !"".equals(orderConfirmType) && !"null".equals(orderConfirmType))
             user.setOrderConfirmType(OrderConfirmType.valueOf(orderConfirmType));
-        if(birthdayStr!=null && "".equals(birthdayStr)) {
+        if(birthdayStr!=null && "".equals(birthdayStr)  && !"null".equals(birthdayStr)) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             LocalDateTime birthday = LocalDateTime.parse(birthdayStr + " 00:00:00", formatter);
             user.setBirthday(Date.from(birthday.atZone(ZoneId.systemDefault()).toInstant()));
