@@ -1,6 +1,8 @@
 package ru.horoshiki.crm.site.model.entity;
 
 import org.hibernate.annotations.*;
+import ru.horoshiki.crm.site.Comparator.AddressComparator;
+import ru.horoshiki.crm.site.Comparator.PhoneComparator;
 import ru.horoshiki.crm.site.model.enums.OrderConfirmType;
 import ru.horoshiki.crm.site.model.enums.PaymentMethods;
 import ru.horoshiki.crm.site.model.enums.Sex;
@@ -78,13 +80,13 @@ public class User {
     @JoinColumn(name = "user_role")
     private UserRole userRoles;
 
-    @OrderColumn
+    @Sort(type = SortType.COMPARATOR, comparator = PhoneComparator.class)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Phone> phones;
+    private Set<Phone> phones;
 
-    @OrderColumn
+    @Sort(type = SortType.COMPARATOR, comparator = AddressComparator.class)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Address> addresses;
+    private Set<Address> addresses;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "def_address")
@@ -114,19 +116,19 @@ public class User {
         this.paymentMethodDef = paymentMethodDef;
     }
 
-    public List<Phone> getPhones() {
+    public Set<Phone> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<Phone> phones) {
+    public void setPhones(Set<Phone> phones) {
         this.phones = phones;
     }
 
-    public List<Address> getAddresses() {
+    public Set<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
     }
 
@@ -274,4 +276,6 @@ public class User {
     public void setOrderConfirm(Boolean orderConfirm) {
         this.orderConfirm = orderConfirm;
     }
+
+
 }

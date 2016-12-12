@@ -76,15 +76,7 @@ public class UserController {
         phone.setConfirmCode(code);
         smsSender.send("7".concat(phone.getNewPhone()), "Код подтверждения: "+code);
 
-        List<Phone> phones = null;
-        if(user.getPhones()==null){
-            phones = new ArrayList<>();
-        }else{
-            phones = user.getPhones();
-        }
-
-        user.setPhones(phones);
-        userService.update(user);
+        phoneService.update(phone);
         return BackendData.success(phone.getId());
     }
 
@@ -107,18 +99,7 @@ public class UserController {
         phone.setNewPhone(HtmlUtils.htmlEscape(newPhone));
         phone.setConfirmCode(code);
         smsSender.send("7".concat(phone.getNewPhone()), "Код подтверждения: "+code);
-
-        List<Phone> phones = null;
-        if(user.getPhones()==null){
-            phones = new ArrayList<>();
-        }else{
-            phones = user.getPhones();
-        }
-
-        user.setPhones(phones);
-        userService.update(user);
-
-
+        phoneService.update(phone);
         return BackendData.success(phone.getId());
     }
 
@@ -189,7 +170,7 @@ public class UserController {
                              @RequestParam(value = "access", required = false) String access,
                              @RequestParam(value = "apartment", required = false) String apartment,
                              @RequestParam(value = "comment", required = false) String comment) {
-        User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
+        User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         Address addressDef = null;
 
         if(addressId!=null && addressId!=0){
@@ -214,17 +195,7 @@ public class UserController {
         if(comment!=null)
             addressDef.setComment(comment);
 
-        List<Address> addresses = null;
-        if(user.getAddresses()==null){
-            addresses = new ArrayList<>();
-        }else{
-            addresses = user.getAddresses();
-        }
-
-        addresses.add(addressDef);
-
-        user.setAddresses(addresses);
-        userService.update(user);
+      addressService.update(addressDef);
 
 //        addressService.update(addressDef);
         return BackendData.success(true);

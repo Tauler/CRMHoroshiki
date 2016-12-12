@@ -9,6 +9,7 @@ import ru.horoshiki.crm.site.model.enums.Sex;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by onyushkindv on 07.12.2016.
@@ -26,8 +27,8 @@ public class UserSmallDTO {
     private Boolean enabled = false;
     private PaymentMethods paymentMethodDef;
     private Date createDate;
-    private List<PhoneSmallDTO> phones;
-    private List<AddressSmallDto> addresses;
+    private Set<PhoneSmallDTO> phones;
+    private Set<AddressSmallDto> addresses;
     private AddressSmallDto defaultAddress;
     private PhoneSmallDTO defaultPhone;
 
@@ -152,19 +153,19 @@ public class UserSmallDTO {
         this.createDate = createDate;
     }
 
-    public List<PhoneSmallDTO> getPhones() {
+    public Set<PhoneSmallDTO> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<PhoneSmallDTO> phones) {
+    public void setPhones(Set<PhoneSmallDTO> phones) {
         this.phones = phones;
     }
 
-    public List<AddressSmallDto> getAddresses() {
+    public Set<AddressSmallDto> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<AddressSmallDto> addresses) {
+    public void setAddresses(Set<AddressSmallDto> addresses) {
         this.addresses = addresses;
     }
 
