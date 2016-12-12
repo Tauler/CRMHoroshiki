@@ -75,8 +75,16 @@ public class UserController {
         phone.setNewPhone(phoneStr);
         phone.setConfirmCode(code);
         smsSender.send("7".concat(phone.getNewPhone()), "Код подтверждения: "+code);
-        phone.setUser(user);
-        phoneService.update(phone);
+
+        List<Phone> phones = null;
+        if(user.getPhones()==null){
+            phones = new ArrayList<>();
+        }else{
+            phones = user.getPhones();
+        }
+
+        user.setPhones(phones);
+        userService.update(user);
         return BackendData.success(phone.getId());
     }
 
@@ -99,8 +107,17 @@ public class UserController {
         phone.setNewPhone(HtmlUtils.htmlEscape(newPhone));
         phone.setConfirmCode(code);
         smsSender.send("7".concat(phone.getNewPhone()), "Код подтверждения: "+code);
-        phone.setUser(user);
-        phoneService.update(phone);
+
+        List<Phone> phones = null;
+        if(user.getPhones()==null){
+            phones = new ArrayList<>();
+        }else{
+            phones = user.getPhones();
+        }
+
+        user.setPhones(phones);
+        userService.update(user);
+
 
         return BackendData.success(phone.getId());
     }
