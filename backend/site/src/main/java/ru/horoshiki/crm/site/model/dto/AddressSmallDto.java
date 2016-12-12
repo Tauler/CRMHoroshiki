@@ -4,7 +4,9 @@ import ru.horoshiki.crm.site.model.entity.Address;
 
 import javax.persistence.Column;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by onyushkindv on 07.12.2016.
@@ -36,8 +38,8 @@ public class AddressSmallDto {
         return addressSmallDto;
     }
 
-    public static List<AddressSmallDto> valueOf(List<Address> addresses){
-        List<AddressSmallDto> addressSmallDtos = new ArrayList<>();
+    public static Set<AddressSmallDto> valueOf(Set<Address> addresses){
+        Set<AddressSmallDto> addressSmallDtos = new HashSet<>();
         for(Address a: addresses){
             addressSmallDtos.add(valueOf(a));
         }

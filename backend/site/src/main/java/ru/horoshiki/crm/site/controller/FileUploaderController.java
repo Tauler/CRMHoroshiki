@@ -42,7 +42,7 @@ public class FileUploaderController {
 
         MultipartFile file = files[0];
 
-        String RESOURCE_PATH = "D:/Projects/IS_Horoshiki/Horoshiki_crm/frontend/";
+        String RESOURCE_PATH = "/var/www/html/my.techbe.ru/";
         String urlFolderPath = FilePathUtils.getImagePath(RESOURCE_PATH);
         String urlImage = FilePathUtils.getImageFileName(file.getOriginalFilename(), file.getSize(), 0);
 

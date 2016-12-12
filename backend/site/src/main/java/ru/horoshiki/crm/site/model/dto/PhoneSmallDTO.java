@@ -4,7 +4,9 @@ import ru.horoshiki.crm.site.model.entity.Phone;
 import ru.horoshiki.crm.site.model.entity.User;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by onyushkindv on 07.12.2016.
@@ -36,8 +38,8 @@ public class PhoneSmallDTO {
         return phoneSmallDTO;
     }
 
-    public static List<PhoneSmallDTO> valueOf(List<Phone> phones){
-        List phonesSmalDto = new ArrayList<>();
+    public static Set<PhoneSmallDTO> valueOf(Set<Phone> phones){
+        Set phonesSmalDto = new HashSet<>();
         for(Phone p: phones) {
             phonesSmalDto.add(valueOf(p));
         }
