@@ -47,7 +47,7 @@ public class User {
     private boolean orderConfirm = true;
 
     @Column(name = "order_confirm_type")
-    private Integer orderConfirmType;
+    private Integer orderConfirmType = OrderConfirmType.SMS.getValue();
 
     @Column(name = "mail")
     private String mail;

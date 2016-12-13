@@ -491,5 +491,153 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 				httpErrors($location.url(), status);
 			});
 		}
+		
+		// Смена пароля
+		$scope.changePasswordModal = function(){
+			$scope.password = {};
+			
+			$scope.password.oldPassword = "";
+			$scope.password.newPassword = "";
+			
+			$scope.error = {};
+			
+			$scope.error.oldPasswordInvalid = false;
+			$scope.error.newPasswordFormat = false;
+		}
+		
+		$scope.validateOldPassword = function(){
+			$scope.error.oldPasswordInvalid = false;
+		}
+		
+		$scope.validateNewPassword = function(){
+			$scope.error.newPasswordFormat = false;
+			if(!passwordRegexp.test($scope.password.newPassword)){
+				$scope.error.newPasswordFormat = true;
+			}
+        }
+		
+		$scope.changePasswordModalSubmit = function(){
+			
+			AccountService.editPassword($scope.password.oldPassword, $scope.password.newPassword).success(function(result){
+				if(result.success == true){
+					closeModal('changePasswordModal');
+				}else{
+					if(result.reason == 'incorrectPasswordError'){
+						$scope.error.oldPasswordInvalid = true;
+					}
+					if(result.reason == 'invalidNewPasswordError'){
+						$scope.error.newPasswordFormat = true;
+					}
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
+		}
+		
+		// Добавление телефона
+		$scope.addPhoneModal = function(phone){
+			$scope.phone = {};
+			$scope.phone.maskTemplate = phoneMaskTemplate;
+			
+			if(phone != null){
+				$scope.phone.newPhone = phone.phone;
+				$scope.phone.newPhoneId = phone.id;
+				$scope.phone.isNew = false;
+			}else{
+				$scope.phone.newPhone = "";
+				$scope.phone.isNew = true;
+			}
+			
+			$scope.error = {};
+			
+			$scope.error.phoneFormat = false;
+			$scope.error.phoneExists = false;
+		}
+		
+		$scope.validateNewPhone = function(){
+			$scope.error.phoneFormat = false;
+			$scope.error.phoneExists = false;
+			
+			if(!userPhoneRegexp.test($scope.phone.newPhone)){
+				$scope.error.phoneFormat = true;
+			}else{
+				AccountService.isLoginExists($scope.phone.newPhone, true).success(function(result){
+					if(result.success == true){
+						if(result.data == true){
+							$scope.error.phoneExists = true;
+						}
+					}else{
+						displayErrorMessage($scope.translation[result.reason]);
+					}
+				}).error(function(result, status){
+					httpErrors($location.url(), status);
+				});
+			}
+		}
+		
+		$scope.addPhoneModalSubmit = function(){
+		
+			if($scope.phone.isNew){
+				AccountService.addPhone($scope.phone.newPhone).success(function(result){
+					if(result.success == true){
+						$scope.confirmPhoneModal(result.data);
+					}else{
+						displayErrorMessage($scope.translation[result.reason]);
+					}
+				}).error(function(result, status){
+					httpErrors($location.url(), status);
+				});
+			}else{
+				AccountService.editPhone($scope.phone.newPhone, $scope.phone.newPhoneId).success(function(result){
+					if(result.success == true){
+						$scope.confirmPhoneModal(result.data);
+					}else{
+						displayErrorMessage($scope.translation[result.reason]);
+					}
+				}).error(function(result, status){
+					httpErrors($location.url(), status);
+				});
+			}
+		}
+		
+		$scope.deletePhoneModalSubmit = function(phone){
+		
+			AccountService.deletePhone(phone.id).success(function(result){
+				if(result.success == true){
+					$scope.loadCurrentUser();
+				}else{
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
+		}
+		
+		$scope.confirmPhoneModal = function(phoneId){
+			$scope.newPhoneId = phoneId;
+			$scope.confirmCode = "";
+			$scope.invalidCode = false;
+			
+			closeModal('addPhoneModal');
+			showModal('confirmPhoneModal');
+		}
+		
+		$scope.confirmPhoneModalSubmit = function(){
+			AccountService.confirmPhone($scope.newPhoneId, $scope.confirmCode).success(function(result){
+				if(result.success == true){
+					closeModal('confirmPhoneModal');
+					
+					$scope.loadCurrentUser();
+				}else{
+					$scope.invalidCode = true;
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
+		}
+		
+		$scope.resendConfirmCode = function(){
+			//
+		}
 	}
 ]);

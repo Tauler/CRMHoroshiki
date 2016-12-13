@@ -60,7 +60,7 @@
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
-								<a href="#">Изменить</a>
+								<a href="#" ng-click="changePasswordModal()" data-toggle="modal" data-target="#changePasswordModal">Изменить</a>
 							</div>
 						</div>
 					</div>
@@ -144,7 +144,7 @@
 							Пароль
 						</div>
 						<div class="col-md-8">
-							<button type="button" class="btn btn-horoshiki transparent" ng-click="">
+							<button type="button" class="btn btn-horoshiki transparent" ng-click="changePasswordModal()" data-toggle="modal" data-target="#changePasswordModal">
 								Изменить пароль
 							</button>
 						</div>
@@ -168,11 +168,11 @@
 									<span class="hint" ng-if="phone.phone==currentUser.login">(используется для входа)</span>
 								</p>
 								<div class="form-group" ng-if="phone.phone!=currentUser.login">
-									<a href="#">Изменить</a>
+									<a href="#" data-toggle="modal" data-target="#addPhoneModal" ng-click="addPhoneModal(phone)">Изменить</a>
 								</div>
 							</div>
 							<div class="form-group">
-								<button type="button" class="btn btn-horoshiki transparent" ng-click="">
+								<button type="button" class="btn btn-horoshiki transparent" data-toggle="modal" data-target="#addPhoneModal" ng-click="addPhoneModal(null)">
 									Добавить телефон
 								</button>
 							</div>
@@ -328,3 +328,126 @@
 		</div>
 	</div>
 </div>
+
+<!-- Modal change password -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<h3 class="modal-title" id="changePasswordModalLabel">Сменить пароль</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<span>Старый пароль</span>
+						<div class="form-group form-control-password">
+							<input ng-change="validateOldPassword()" ng-model="password.oldPassword" type="password" class="form-control form-control-pwd" name="oldPassword" id="oldPassword" data-toggle="password" data-message="Показать/скрыть пароль" />
+							<code class="ng-hide" ng-show="error.oldPasswordInvalid==true">Неверный пароль</code>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<span>Новый пароль</span>
+						<div class="form-group form-control-password">
+							<input ng-change="validateNewPassword()" ng-model="password.newPassword" type="password" class="form-control form-control-pwd" name="newPassword" id="newPassword" data-toggle="password" data-message="Показать/скрыть пароль" />
+							<code class="ng-hide" ng-show="error.newPasswordFormat==true">Не верный формат пароля. Пароль может состоять из заглавных и прописных латинских букв, цифр и служебных символов: !@^*-.,+= длинной от 6 до 16 символов</code>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-horoshiki transparent float-left" ng-disabled="error.oldPasswordInvalid || error.newPasswordFormat || password.newPassword.length == 0" ng-click="changePasswordModalSubmit()">
+					Сменить пароль
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal add phone -->
+<div class="modal fade" id="addPhoneModal" tabindex="-1" role="dialog" aria-labelledby="addPhoneModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<h3 class="modal-title" id="addPhoneModalLabel" ng-if="phone.isNew == true">Добавить телефон</h3>
+				<h3 class="modal-title" id="addPhoneModalLabel" ng-if="phone.isNew == false">Изменить телефон</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<span>Введите новый телефон</span>
+						<div class="form-group">
+							<input ng-model="phone.newPhone" ng-change="validateNewPhone()" type="text" class="form-control" name="newPhone" id="newPhone" ui-mask="{{phone.maskTemplate}}" ui-mask-placeholder />
+							<code class="ng-hide" ng-show="error.phoneFormat==true">Введите номер телефона</code>
+							<code class="ng-hide" ng-show="error.phoneExists==true">Номер телефона уже зарегистрирован в системе</code>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-horoshiki transparent float-left" ng-disabled="error.phoneFormat || error.phoneExists || phone.newPhone.length == 0" ng-click="addPhoneModalSubmit()">
+					Сохранить
+				</button>
+				<div class="margin-top-10 float-right" ng-if="phone.isNew == false">
+					<a href="#" class="black-link" data-dismiss="modal" ng-click="deletePhoneModalSubmit(phone)">Удалить номер</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal confirm phone -->
+<div class="modal fade" id="confirmPhoneModal" tabindex="-1" role="dialog" aria-labelledby="confirmPhoneModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<h3 class="modal-title" id="confirmPhoneModalLabel">Подтверждение телефона</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<span>Введите код подтверждения из SMS</span>
+						<div class="form-group">
+							<input ng-model="confirmCode" type="text" class="form-control" name="confirmCode" id="confirmCode" />
+							<code class="ng-hide" ng-show="invalidCode==true">Укажите верный код подтверждения</code>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-horoshiki transparent float-left" ng-disabled="invalidCode || confirmCode.length == 0" ng-click="confirmPhoneModalSubmit()">
+					Сохранить
+				</button>
+				<div class="margin-top-10 float-right">
+					Если ничего не пришло, нажмите <a href="#" ng-click="resendConfirmCode()">выслать еще раз</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function(){
+	$('#oldPassword').password({
+		eyeClass: 'horoshiki-eye',
+		eyeOpenClass: 'horoshiki-eye-open',
+		eyeCloseClass: 'horoshiki-eye-close'
+	});
+	
+	$('#newPassword').password({
+		eyeClass: 'horoshiki-eye',
+		eyeOpenClass: 'horoshiki-eye-open',
+		eyeCloseClass: 'horoshiki-eye-close'
+	});
+	
+	$('.form-control-pwd').on('focus', function(e){
+		$(this).parent().children('span').removeClass('form-control-password').addClass('form-control-password-active');
+	}).on('blur', function(e){
+		$(this).parent().children('span').removeClass('form-control-password-active').addClass('form-control-password');
+	});
+});
+</script>

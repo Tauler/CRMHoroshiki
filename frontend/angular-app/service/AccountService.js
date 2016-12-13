@@ -119,4 +119,49 @@ accountServices.service('AccountService', ['$http', function($http) {
         });
     }
 	
+	this.editPassword = function(password, newPassword) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editPassword',
+            data: 'password='+password+'&newPassword='+newPassword,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.addPhone = function(phone) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/addPhone',
+            data: 'phone='+phone,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.deletePhone = function(phoneId) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/deletePhone',
+            data: 'phoneId='+phoneId,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.confirmPhone = function(phoneId, code) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/confirmPhone',
+            data: 'phoneId='+phoneId+'&code='+code,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.editPhone = function(phoneId, phone) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editPhone',
+            data: 'phoneId='+phoneId+'&phone='+phone,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
 }]);

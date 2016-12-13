@@ -62,7 +62,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/addPhone", method = RequestMethod.GET)
+    @RequestMapping(value = "/addPhone", method = RequestMethod.POST)
     public
     @ResponseBody
     BackendData addPhone(@RequestParam(value = "phone", required = true) String phoneStr){
@@ -80,7 +80,7 @@ public class UserController {
         return BackendData.success(phone.getId());
     }
 
-    @RequestMapping(value = "/editPhone", method = RequestMethod.GET)
+    @RequestMapping(value = "/editPhone", method = RequestMethod.POST)
     public
     @ResponseBody
     BackendData editPhone(@RequestParam(value = "phoneId", required = true) long phoneId,
