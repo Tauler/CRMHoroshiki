@@ -44,7 +44,7 @@ public class User {
     private Integer sex;
 
     @Column(name="order_confirm")
-    private Boolean orderConfirm;
+    private boolean orderConfirm = true;
 
     @Column(name = "order_confirm_type")
     private Integer orderConfirmType;
@@ -96,8 +96,8 @@ public class User {
     @JoinColumn(name = "def_phone")
     private Phone defaultPhone;
 
-    @Column(name = "notifications", nullable = false)
-    private boolean notifications = false;
+    @Column(name = "notifications")
+    private boolean notifications = true;
 
     public boolean isNotifications() {
         return notifications;

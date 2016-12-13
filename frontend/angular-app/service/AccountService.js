@@ -74,4 +74,49 @@ accountServices.service('AccountService', ['$http', function($http) {
         });
     }
 	
+	this.editSex = function(sex) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAccount',
+            data: 'sex='+sex,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.editBirthday = function(birthday) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAccount',
+            data: 'birthday='+birthday,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.editOrderConfirm = function(orderConfirm) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAccount',
+            data: 'orderConfirm='+orderConfirm,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.editNotifications = function(notifications) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAccount',
+            data: 'notifications='+notifications,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.editOrderConfirmType = function(orderConfirmType) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAccount',
+            data: 'orderConfirmType='+orderConfirmType,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
 }]);

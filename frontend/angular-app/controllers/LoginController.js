@@ -40,8 +40,6 @@ loginControllers.controller('RegistrationViewController', ['$scope', '$location'
 		$scope.page = {};
 		$scope.page.showRegistration = true;
 		$scope.page.showConfirm = false;
-		// $scope.page.showRegistration = false;
-		// $scope.page.showConfirm = true;
 		
 		$scope.availablePaymentMethods = ['CARD', 'CASH', 'DELIVERY_CARD'];
 		
@@ -252,25 +250,60 @@ loginControllers.controller('ConfirmViewController', ['$scope', '$location',
 
 loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$location', 'AccountService',
     function ($scope, $rootScope, $location, AccountService) {
-
+	
 		$scope.currentUser = {};
+	
+		$scope.availableSex = getSexArray();
+		$scope.selectedSex = null;
+		
+		$scope.birthdayModel = {};
+		
+		$scope.birthdayModel.selectedYear = null;
+		$scope.birthdayModel.selectedMonth = null;
+		$scope.birthdayModel.selectedDay = null;
+		
+		$scope.birthdayModel.years = getYearsList();
+		$scope.birthdayModel.months = getMonthsList();
 
+		$scope.getDays = function(){
+			if($scope.birthdayModel.selectedYear == null || $scope.birthdayModel.selectedMonth == null){
+				$scope.birthdayModel.days = getDaysList(2016, 12);
+			}else{
+				$scope.birthdayModel.days = getDaysList($scope.birthdayModel.selectedYear, $scope.birthdayModel.selectedMonth.id + 1);
+			}
+		}
+		
 		$scope.myCallback = function (valueFromDirective) {
 			$scope.$apply(function () {
 				$scope.currentUser.avatar = valueFromDirective.data;
 			});
 		};
 
-		$rootScope.$watch('currentUserLoaded', function(){
-			if($rootScope.currentUserLoaded == true){
-				$scope.currentUser = $rootScope.currentUser;
-			}
-		});
-		
-		$scope.reloadCurrentUser = function(){
+		$scope.loadCurrentUser = function(){
 			AccountService.getCurrentUser().success(function (result) {
 				if (result.success == true) {
 					$scope.currentUser = result.data;
+					
+					for(var i in $scope.availableSex){
+						if($scope.availableSex[i].value == $scope.currentUser.sex){
+							$scope.selectedSex = $scope.availableSex[i];
+						}
+					}
+					
+					if($scope.currentUser.birthday != null){
+						var birthday = new Date($scope.currentUser.birthday);
+						
+						$scope.birthdayModel.selectedYear = birthday.getFullYear();
+						$scope.birthdayModel.selectedDay = birthday.getDate();
+						
+						for(var i in $scope.birthdayModel.months){
+							if($scope.birthdayModel.months[i].id == birthday.getMonth()){
+								$scope.birthdayModel.selectedMonth = $scope.birthdayModel.months[i];
+							}
+						}
+					}
+					
+					$scope.getDays();
 				} else {
 					displayErrorMessage($scope.translation[result.reason]);
 				}
@@ -278,6 +311,8 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 				httpErrors($location.url(), status);
 			});
 		}
+		
+		$scope.loadCurrentUser();
 		
 		// Модальник добавления и изменения адреса
 		$scope.addAddressModal = function(address){
@@ -329,7 +364,7 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 			if(!$scope.newAddress.error.address){
 				AccountService.editAddress($scope.newAddress.id, $scope.newAddress.address, $scope.newAddress.intercom, $scope.newAddress.storey, $scope.newAddress.access, $scope.newAddress.apartment, $scope.newAddress.comment).success(function(result){
 					if(result.success == true){
-						$scope.reloadCurrentUser();
+						$scope.loadCurrentUser();
 					}else{
 						displayErrorMessage($scope.translation[result.reason]);
 					}
@@ -343,7 +378,7 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 		
 			AccountService.deleteAddress(address.id).success(function(result){
 				if(result.success == true){
-					$scope.reloadCurrentUser();
+					$scope.loadCurrentUser();
 				}else{
 					displayErrorMessage($scope.translation[result.reason]);
 				}
@@ -353,24 +388,6 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 		}
 		
 		// Дата рождения
-		$scope.birthdayModel = {};
-		
-		$scope.birthdayModel.selectedYear = null;
-		$scope.birthdayModel.selectedMonth = null;
-		$scope.birthdayModel.selectedDay = null;
-		
-		$scope.birthdayModel.years = getYearsList();
-		$scope.birthdayModel.months = getMonthsList();
-
-		$scope.getDays = function(){
-			if($scope.birthdayModel.selectedYear == null || $scope.birthdayModel.selectedMonth == null){
-				$scope.birthdayModel.days = getDaysList(2016, 12);
-			}else{
-				$scope.birthdayModel.days = getDaysList($scope.birthdayModel.selectedYear, $scope.birthdayModel.selectedMonth.id + 1);
-			}
-		}
-		$scope.getDays();
-		
 		$scope.setAvailableDay = function(){
 			$scope.getDays();
 			
@@ -384,15 +401,95 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 		$scope.birthdaySelectYear = function(year){
 			$scope.birthdayModel.selectedYear = year;
 			$scope.setAvailableDay();
+			
+			$scope.saveUserBirthday();
 		}
 		
 		$scope.birthdaySelectMonth = function(month){
 			$scope.birthdayModel.selectedMonth = month;
 			$scope.setAvailableDay();
+			
+			$scope.saveUserBirthday();
 		}
 		
 		$scope.birthdaySelectDay = function(day){
 			$scope.birthdayModel.selectedDay = day;
+			
+			$scope.saveUserBirthday();
+		}
+		
+		$scope.saveUserBirthday = function(){
+			
+			if($scope.birthdayModel.selectedDay != null && $scope.birthdayModel.selectedMonth != null && $scope.birthdayModel.selectedYear != null){
+				var birthday = numb2($scope.birthdayModel.selectedDay)+"."+numb2($scope.birthdayModel.selectedMonth.id + 1)+"."+$scope.birthdayModel.selectedYear;
+
+				AccountService.editBirthday(birthday).success(function(result){
+					if(result.success == true){
+						// $scope.loadCurrentUser();
+					}else{
+						displayErrorMessage($scope.translation[result.reason]);
+					}
+				}).error(function(result, status){
+					httpErrors($location.url(), status);
+				});
+			}
+		}
+		
+		// Пол
+		$scope.selectSex = function(sex){
+			$scope.selectedSex = sex;
+			
+			AccountService.editSex($scope.selectedSex.value).success(function(result){
+				if(result.success == true){
+					// $scope.loadCurrentUser();
+				}else{
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
+		}
+		
+		// Подтверждение заказа
+		$scope.submitOrderConfirm = function(){
+		
+			AccountService.editOrderConfirm($scope.currentUser.orderConfirm).success(function(result){
+				if(result.success == true){
+					// $scope.loadCurrentUser();
+				}else{
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
+		}
+		
+		// Подписка на новости
+		$scope.submitNotifications = function(){
+		
+			AccountService.editNotifications($scope.currentUser.notifications).success(function(result){
+				if(result.success == true){
+					// $scope.loadCurrentUser();
+				}else{
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
+		}
+		
+		// Тип подтверждения заказа
+		$scope.submitOrderConfirmType = function(){
+		
+			AccountService.editOrderConfirmType($scope.currentUser.orderConfirmType).success(function(result){
+				if(result.success == true){
+					// $scope.loadCurrentUser();
+				}else{
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
 		}
 	}
 ]);
