@@ -1,14 +1,11 @@
 package ru.horoshiki.crm.site.model.dto;
 
-import ru.horoshiki.crm.site.model.entity.Address;
-import ru.horoshiki.crm.site.model.entity.Phone;
 import ru.horoshiki.crm.site.model.entity.User;
 import ru.horoshiki.crm.site.model.enums.OrderConfirmType;
 import ru.horoshiki.crm.site.model.enums.PaymentMethods;
 import ru.horoshiki.crm.site.model.enums.Sex;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,8 +18,9 @@ public class UserSmallDTO {
     private String avatar;
     private Date birthday;
     private Sex sex;
-    private Boolean oderConfirm;
+    private Boolean orderConfirm;
     private OrderConfirmType orderConfirmType;
+    private Boolean notifications;
     private String mail;
     private Boolean enabled = false;
     private PaymentMethods paymentMethodDef;
@@ -46,8 +44,9 @@ public class UserSmallDTO {
         userSmallDTO.setId(user.getId());
         userSmallDTO.setMail(user.getMail());
         userSmallDTO.setName(user.getName());
-        userSmallDTO.setOderConfirm(user.getOrderConfirm());
+        userSmallDTO.setOrderConfirm(user.getOrderConfirm());
         userSmallDTO.setOrderConfirmType(user.getOrderConfirmType());
+        userSmallDTO.setNotifications(user.isNotifications());
         userSmallDTO.setPaymentMethodDef(user.getPaymentMethodDef());
         userSmallDTO.setPhones(PhoneSmallDTO.valueOf(user.getPhones()));
         userSmallDTO.setSex(user.getSex());
@@ -103,12 +102,20 @@ public class UserSmallDTO {
         this.sex = sex;
     }
 
-    public Boolean getOderConfirm() {
-        return oderConfirm;
+    public Boolean getOrderConfirm() {
+        return orderConfirm;
     }
 
-    public void setOderConfirm(Boolean oderConfirm) {
-        this.oderConfirm = oderConfirm;
+    public Boolean getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Boolean notifications) {
+        this.notifications = notifications;
+    }
+
+    public void setOrderConfirm(Boolean orderConfirm) {
+        this.orderConfirm = orderConfirm;
     }
 
     public OrderConfirmType getOrderConfirmType() {

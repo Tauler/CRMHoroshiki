@@ -44,7 +44,7 @@ public class User {
     private Integer sex;
 
     @Column(name="order_confirm")
-    private Boolean orderConfirm;
+    private boolean orderConfirm = true;
 
     @Column(name = "order_confirm_type")
     private Integer orderConfirmType;
@@ -95,6 +95,17 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "def_phone")
     private Phone defaultPhone;
+
+    @Column(name = "notifications")
+    private boolean notifications = true;
+
+    public boolean isNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(boolean notifications) {
+        this.notifications = notifications;
+    }
 
     public String getLogin() {
         return login;

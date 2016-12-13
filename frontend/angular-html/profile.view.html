@@ -217,11 +217,11 @@
 						</div>
 						<div class="col-md-8 profile-radio">
 							<div class="form-group">
-								<input type="radio" name="confirm" id="confirm-1" value="" />
+								<input type="radio" name="confirm" id="confirm-1" value="CALL" ng-model="currentUser.orderConfirmType" ng-click="submitOrderConfirmType()" />
 								<label for="confirm-1">Звонок оператора</label>
 							</div>
 							<div class="form-group">
-								<input type="radio" name="confirm" id="confirm-2" value="" checked />
+								<input type="radio" name="confirm" id="confirm-2" value="SMS" ng-model="currentUser.orderConfirmType" ng-click="submitOrderConfirmType()" />
 								<label for="confirm-2">По SMS без звонка</label>
 							</div>
 						</div>
@@ -232,11 +232,11 @@
 						</div>
 						<div class="col-md-8 profile-radio">
 							<div class="form-group">
-								<input type="radio" name="smsstat" id="smsstat-1" value="" checked />
+								<input type="radio" name="smsstat" id="smsstat-1" ng-value="true" ng-model="currentUser.orderConfirm" ng-click="submitOrderConfirm()" />
 								<label for="smsstat-1">Информировать</label>
 							</div>
 							<div class="form-group">
-								<input type="radio" name="smsstat" id="smsstat-2" value="" />
+								<input type="radio" name="smsstat" id="smsstat-2" ng-value="false" ng-model="currentUser.orderConfirm" ng-click="submitOrderConfirm()" />
 								<label for="smsstat-2">Не информировать</label>
 							</div>
 						</div>
@@ -247,11 +247,11 @@
 						</div>
 						<div class="col-md-8 profile-radio">
 							<div class="form-group">
-								<input type="radio" name="subscription" id="subscription-1" value="" checked />
+								<input type="radio" name="subscription" id="subscription-1" ng-value="true" ng-model="currentUser.notifications" ng-click="submitNotifications()" />
 								<label for="subscription-1">Да</label>
 							</div>
 							<div class="form-group">
-								<input type="radio" name="subscription" id="subscription-2" value="" />
+								<input type="radio" name="subscription" id="subscription-2" ng-value="false" ng-model="currentUser.notifications" ng-click="submitNotifications()" />
 								<label for="subscription-2">Нет</label>
 							</div>
 						</div>
