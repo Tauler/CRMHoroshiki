@@ -40,7 +40,8 @@
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
-								<input type="text" class="form-control" name="name" id="name" ng-model="currentUser.name" />
+								<input type="text" class="form-control" name="name" id="name" ng-model="currentUser.name" ng-blur="saveUserName()"/>
+								<code class="ng-hide" ng-show="userNameError==true">Введите ФИО</code>
 							</div>
 						</div>
 					</div>
@@ -50,7 +51,8 @@
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
-								<input type="text" class="form-control" name="mail" id="mail" ng-model="currentUser.mail" />
+								<input type="text" class="form-control" name="mail" id="mail" ng-model="currentUser.mail" ng-blur="saveUserMail()" />
+								<code class="ng-hide" ng-show="userMailError==true">Не верный формат электронной почты</code>
 							</div>
 						</div>
 					</div>
@@ -163,7 +165,7 @@
 							Контактный телефон
 						</div>
 						<div class="col-md-8">
-							<div class="margin-bottom-30" ng-repeat="phone in currentUser.phones">
+							<div class="margin-bottom-30" ng-repeat="phone in currentUser.phones" ng-if="phone.phone != null">
 								<p>{{phone.phone}} 
 									<span class="hint" ng-if="phone.phone==currentUser.login">(используется для входа)</span>
 								</p>

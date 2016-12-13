@@ -637,7 +637,53 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 		}
 		
 		$scope.resendConfirmCode = function(){
-			//
+			AccountService.reSendCodePhone($scope.newPhoneId).success(function(result){
+				if(result.success == true){
+					
+				}else{
+					displayErrorMessage($scope.translation[result.reason]);
+				}
+			}).error(function(result, status){
+				httpErrors($location.url(), status);
+			});
+		}
+		
+		// Изменение имени
+		$scope.saveUserName = function(){
+			$scope.userNameError = false;
+			
+			if($scope.currentUser.name == null || $scope.currentUser.name == undefined || $scope.currentUser.name.length == 0){
+				$scope.userNameError = true;
+			}else{
+				AccountService.editName($scope.currentUser.name).success(function(result){
+					if(result.success == true){
+						$scope.userNameError = false;
+					}else{
+						displayErrorMessage($scope.translation[result.reason]);
+					}
+				}).error(function(result, status){
+					httpErrors($location.url(), status);
+				});
+			}
+		}
+		
+		// Изменение почты
+		$scope.saveUserMail = function(){
+			$scope.userMailError = false;
+			
+			if(!mailRegexp.test($scope.currentUser.mail)){
+				$scope.userMailError = true;
+			}else{
+				AccountService.editMail($scope.currentUser.mail).success(function(result){
+					if(result.success == true){
+						$scope.userMailError = false;
+					}else{
+						displayErrorMessage($scope.translation[result.reason]);
+					}
+				}).error(function(result, status){
+					httpErrors($location.url(), status);
+				});
+			}
 		}
 	}
 ]);

@@ -164,4 +164,31 @@ accountServices.service('AccountService', ['$http', function($http) {
         });
     }
 	
+	this.reSendCodePhone = function(phoneId) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/reSendCodePhone',
+            data: 'phoneId='+phoneId,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.editMail = function(mail) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAccount',
+            data: 'mail='+mail,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
+	this.editName = function(name) {
+        return $http({
+            method: 'POST',
+            url: backendServerAddr+'/user/editAccount',
+            data: 'name='+name,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+        });
+    }
+	
 }]);
