@@ -588,7 +588,7 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 					httpErrors($location.url(), status);
 				});
 			}else{
-				AccountService.editPhone($scope.phone.newPhone, $scope.phone.newPhoneId).success(function(result){
+				AccountService.editPhone($scope.phone.newPhoneId, $scope.phone.newPhone).success(function(result){
 					if(result.success == true){
 						$scope.confirmPhoneModal(result.data);
 					}else{
@@ -602,7 +602,7 @@ loginControllers.controller('ProfileViewController', ['$scope', '$rootScope', '$
 		
 		$scope.deletePhoneModalSubmit = function(phone){
 		
-			AccountService.deletePhone(phone.id).success(function(result){
+			AccountService.deletePhone(phone.newPhoneId).success(function(result){
 				if(result.success == true){
 					$scope.loadCurrentUser();
 				}else{

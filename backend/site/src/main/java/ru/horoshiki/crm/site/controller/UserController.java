@@ -75,7 +75,7 @@ public class UserController {
         phone.setNewPhone(phoneStr);
         phone.setConfirmCode(code);
         smsSender.send("7".concat(phone.getNewPhone()), "Код подтверждения: "+code);
-
+        phone.setUser(user);
         phoneService.update(phone);
         return BackendData.success(phone.getId());
     }
