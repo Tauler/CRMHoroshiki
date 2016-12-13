@@ -236,7 +236,9 @@ public class UserController {
                         @RequestParam(value = "birthday", required = false) String birthdayStr,
                         @RequestParam(value = "orderConfirm", required = false) Boolean orderConfirm,
                         @RequestParam(value = "orderConfirmType", required = false) String orderConfirmType,
-                        @RequestParam(value = "notifications", required = false) String notifications){
+                        @RequestParam(value = "notifications", required = false) String notifications,
+                        @RequestParam(value = "mail", required = false) String mail,
+                        @RequestParam(value = "name", required = false) String name){
         User user = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName(), "addresses");
         if(user==null)
             return BackendData.error("userNotFoundError");
@@ -252,8 +254,11 @@ public class UserController {
             LocalDateTime birthday = LocalDateTime.parse(birthdayStr + " 00:00:00", formatter);
             user.setBirthday(Date.from(birthday.atZone(ZoneId.systemDefault()).toInstant()));
         }
-        if(notifications!=null && !"".equals(notifications) && !"null".equals(notifications))
-            user.setNotifications(Boolean.valueOf(notifications));
+        if(mail!=null && !"null".equals(mail))
+            user.setMail(mail);
+
+        if(name!=null && !"".equals(name) && !"null".equals(name))
+            user.setName(name);
 
         userService.update(user);
         return BackendData.success(true);
