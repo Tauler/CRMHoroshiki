@@ -80,6 +80,19 @@ public class UserController {
         return BackendData.success(phone.getId());
     }
 
+    @RequestMapping(value = "/reSendCodePhone", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    BackendData addPhone(@RequestParam(value = "phoneId", required = true) long phoneId){
+        Phone phone = phoneService.get(phoneId, "user");
+
+        String code = SmsUtils.generateCode();
+        phone.setConfirmCode(code);
+        smsSender.send("7".concat(phone.getNewPhone()), "Код подтверждения: "+code);
+        phoneService.update(phone);
+        return BackendData.success(phone.getId());
+    }
+
     @RequestMapping(value = "/editPhone", method = RequestMethod.POST)
     public
     @ResponseBody
